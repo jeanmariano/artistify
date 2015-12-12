@@ -1,0 +1,209 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,300,700,900);
+
+body {
+  font-family: 'Montserrat','Helvetica Neue','Helvetica', sans-serif;
+  background-color: #fafafa;
+}
+div {
+  /*border:1px solid #eee;*/
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Montserrat', sans-serif;
+  margin:0px;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+audio, canvas, progress, video {
+  vertical-align: middle;
+}
+a {
+  cursor: pointer;
+}
+#viewProfile #viewUserImg, #viewprofile .mainuserimg{
+  width:100%;
+  border-radius: 100%;
+  margin-right:8px;
+}
+#viewProfile .viewUsername {
+  font-weight: 400;
+}
+.mediacaption {
+  text-align: left;
+}
+.editGroupUserImg {
+  height:50px;
+  border-radius: 100%;
+  margin-right:10px;
+}
+.rightalign {
+  text-align: right;
+}
+#contentrow {
+  width:100%;
+  display: table;
+  padding-bottom: 20px
+}
+#searchtypecont {
+  display: table-cell;
+}
+#searchtype {
+  width:96%;
+}
+#searchbar {
+  padding-left: 30px;  
+  width:98%;
+}
+#searchbarcont {
+  display: table-cell;
+}
+#searchbutton { 
+  width:100%;
+}
+#navbartitle {
+  background-image: url('images/instagram.gif');
+  background-repeat: no-repeat;
+  font:14px 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  display: block;
+  padding: 5px 0 18px 108px;
+  font-weight: 700;
+  background-size: 100px 30px;
+  letter-spacing: 1px;
+}
+#navbar {
+  padding: 20px 0px 5px 0px;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+}
+#maincontainer {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  background-color: #fafafa;
+}
+#contentcontainer{ 
+  width:75%;
+}
+.sidesquish{ 
+  padding:0px 50px 0px 50px;
+}
+.inner-addon {
+  color: #000000;
+  position: relative;
+  text-align: left;
+}
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+#newGroup .modal-dialog, #editgroup .modal-dialog, #addToGroup .modal-dialog {
+  width:400px;
+  margin-left: auto;
+  margin-right: auto; 
+}
+#newGroup .modal-body, #editgroup .modal-body, #addToGroup .modal-body{  
+  overflow: auto;
+  max-height: 65vh;
+}
+
+/*mediaView*/
+#mediaView .modal-content {
+  border-radius: 0;  
+}
+#mediaView .modal-dialog {
+  min-width:70%;  
+}
+#mediaViewmedia #media {
+  width:100%;
+}
+#mediaViewmedia {
+  width:60%;
+  display:inline-block;
+}
+#mediaViewtext {
+  width:39%;
+  display:inline-block;
+  vertical-align: top;
+  overflow:auto;
+  max-height:90vh;
+}
+#mediaViewusername {
+  font-size: 16px;
+}
+#mediaViewuserimg {
+  width:40px;
+  margin-right:8px;
+}
+#mediaViewcaption {  
+  overflow: auto;
+  /*height: 100%;*/
+}
+.mediausername {
+  font-size: 12px;
+}
+.mediauserimg {
+  width:25px;
+  margin-right:8px;
+  border-radius: 100%;
+}
+.thumbnail img, .thumbnail video {
+  width:100%;
+  cursor: pointer;
+}
+.glyphicon-heart {
+  color:#FF6666;
+}
+.memberCheck {
+  padding-top: 16px;
+  color:#ffffff;
+}
+ul {
+  list-style: none;
+  padding-left:0;
+}
+#editgroup li {
+  padding:10px;
+}
+#groupList .glyphicon {
+  visibility: hidden;
+}
+#groupList a:hover .glyphicon {
+  visibility: visible;
+  color:#555;
+}
+#groupList a .glyphicon:hover {
+  color:#000;
+}
+#addToGroupList, #edituserlist {
+  margin-bottom:0px;
+}
+.groupSmall {
+  font-size: 12px;
+  padding:5px 10px;
+  line-height: 12px;
+  border: 0px;
+  border-radius: 0px;
+}
+.popover-content {
+  padding-left: 0px;
+  padding-right: 0px;
+  width:170px;
+}
+
+

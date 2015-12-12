@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>zzzify</title>
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="moment.js"></script>
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row" id="navbar">
+      <div class="col-md-2 col-lg-3"></div>
+      <div class="col-md-8 col-lg-6">
+        <div class="pull-left">
+          <h2>zzzify</h2>
+        </div>
+        <div class="pull-right">
+          <div class="dropdown pull-right">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Navigation
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li class="navlink" id="homelink"><a href="#">Home</a></li>
+              <li class="navlink" id="groupslink"><a href="#">My Groups</a></li>
+              <li class="navlink" id="searchlink"><a href="#">Search Instagram</a></li>
+              <li class="navlink" id="browselink"><a href="#">Browse Popular</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-3"></div>
+    </div>  
+
+    <div class="row" id="sleepView">
+      <div class="col-md-2 col-lg-3"></div>
+      <div class="col-md-8 col-lg-6">
+        <br>
+        <div class="panel panel-default">
+          <div class="panel-body text-center">
+            <span id="clock"></span>
+            <button class="btn btn-lg btn-danger" onclick="goToView('main','sleep')">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-3"></div>
+    </div>
+
+    <div class="row" id="mainView">
+      <div class="col-md-2 col-lg-3"></div>
+      <div class="col-md-8 col-lg-6">
+        <br>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            Wake me up by
+
+            <form class="form-inline">
+              <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe"> :
+                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+              </div>
+            </form>
+
+            <br>
+            Preferred Genres
+            <div class="row">
+              <div class="col-md-4">
+                <a class="list-group-item">Mariah</a>
+              </div>
+              <div class="col-md-4">
+                <a class="list-group-item">Carey</a>              
+              </div>
+              <div class="col-md-4">
+                <a class="list-group-item">Rap</a>
+              </div>
+            </div>
+            <br/>
+            <div class="row">
+              <div class="col-md-4">
+                <a class="list-group-item">Mariah</a>
+              </div>
+              <div class="col-md-4">
+                <a class="list-group-item">Carey</a>              
+              </div>
+              <div class="col-md-4">
+                <a class="list-group-item">Rap</a>
+              </div>
+            </div>
+            <br/>
+            <button class="btn btn-lg btn-primary" onclick="goToView('sleep','main')">Sleep now</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-3"></div>
+    </div>
+
+  </div>
+</body>
+</html>
