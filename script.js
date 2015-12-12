@@ -29,6 +29,6 @@ function goToView(from,to) {
 
 $(document).ready(function() {
     startTime()
-    checkTime()        
-    $('#sleepView').css('display','none');    
+    checkTime()
+    $('#sleepView').css('display','none');
 });

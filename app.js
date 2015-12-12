@@ -1,0 +1,1 @@
+requirejs(['script-backend.js']);
