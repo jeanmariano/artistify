@@ -1,46 +1,9 @@
-define(function (require) {
   var BASE_SPOTIFY_URL = "https://api.spotify.com/v1/tracks?market=US&ids=";
   var SLEEPY_PLAYLIST = "https://api.spotify.com/v1/users/spotify/playlists/5UMleIsaNDK5LzZRbrbcXr/tracks";
   var SPOTIFY_CLIENT_ID = "74a75faf8e044e9193c2c385dabde32f";
   var SPOTIFY_CLIENT_SECRET = "56ff8540a44a4a42b0c611a7cfc05331";
   var SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token";
   var AUTH = "Basic NzRhNzVmYWY4ZTA0NGU5MTkzYzJjMzg1ZGFiZGUzMmY6NTZmZjg1NDBhNDRhNGE0MmIwYzYxMWE3Y2ZjMDUzMzE=";
-  //var request = require('request/request.js');
-  function startTime() {
-          var today = new Date();
-          var h = today.getHours();
-          var m = today.getMinutes();
-          var s = today.getSeconds();
-          m = checkTime(m);
-          s = checkTime(s);
-          document.getElementById('clock').innerHTML =
-          h + ":" + m + ":" + s;
-          var t = setTimeout(startTime, 500);
-      }
-      function checkTime(i) {
-          if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-          return i;
-      }
-
-  function toggleView(id) {
-      if ($('#'+id+'View').css('display') === 'none') {
-         $('#'+id+'View').css('display','block');
-      }
-      else
-          $('#'+id+'View').css('display','none');
-  }
-
-  function goToView(from,to) {
-      toggleView(from);
-      toggleView(to);
-  }
-
-  $(document).ready(function() {
-      startTime()
-      checkTime()
-      $('#sleepView').css('display','none');
-  });
-
 
   // sends a list of previews to the callback
   // max 10 songs at a time ?
@@ -132,4 +95,3 @@ define(function (require) {
     }
   });
 */
-});
