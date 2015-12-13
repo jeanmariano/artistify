@@ -40,7 +40,11 @@
   // sends a list of previews to the callback
   // max 10 songs at a time ?
   function getPreviewsFromSpotifyIds(ids, callback) {
+    console.log(ids);
     var url = BASE_SPOTIFY_URL + ids.join(",");
+    if (endsWith(url, ",")) {
+      url = url.slice(0, -1);
+    }
     $.ajax(ajaxObj(url)).done(function(data) {
       callback(
         data.tracks.filter(function(track) { return (track.preview_url !== null)})
@@ -77,15 +81,26 @@
   }
 
   function getWakeySongs(callback, genres) {
-    $.when(songGroup(0.6, genres), songGroup(0.65, genres), songGroup(0.7, genres), songGroup(0.75, genres), songGroup(0.8, genres), songGroup(0.85, genres))
+    var level = getRandomInt(55, 68);
+    level = level/100.0;
+    $.when(songGroup(level, genres), songGroup(level+0.05, genres), songGroup(level+.1, genres), songGroup(level+.15, genres), songGroup(level+.20, genres), songGroup(level+.25, genres))
     .done(function(a1, a2, a3, a4, a5, a6){
       var ids = ([a1,a2,a3,a4,a5,a6].map(function(data) {
         return getForeignIdsEchonest(data[0]);
       }));
-      getPreviewsFromSpotifyIds(ids, callback);
+      var merged_ids = [].concat.apply([], ids);
+
+      getPreviewsFromSpotifyIds(merged_ids, callback);
 
     });
   }
+  function endsWith(str, suffix) {
+      return str.indexOf(suffix, str.length - suffix.length) !== -1;
+  }
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 
 function shuffle(array) {
@@ -109,7 +124,7 @@ function shuffle(array) {
 
   function getForeignIdsEchonest(data) {
     return data.response.songs
-    .filter(function(song, index) { return (song.tracks.length > 0 && index < 10) })
+    .filter(function(song, index) { return (song.tracks.length > 0 && index < 10 && song.tracks[0].foreign_id ) })
     .map(function(song) {
       return song.tracks[0].foreign_id.split(":")[2];
     });
