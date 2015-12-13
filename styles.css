@@ -17,7 +17,6 @@ div, .panel, .panel-body {
   background-color: transparent;
   /*background: rgba(0,0,0,1);/*/  
 }
-
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Montserrat', sans-serif;
   margin:0px;
@@ -27,16 +26,22 @@ h1,h2,h3,h4,h5,h6 {
 audio, canvas, progress, video {
   vertical-align: middle;
 }
+audio {
+  display: none;
+}
 a {
   cursor: pointer;
+}
+img {
+  border-radius: 100%;
 }
 .clock {
   font-weight: 300;
   font-size:130px;
-  font-family: helvetica;
+  font-family: avenir;
   line-height: 100px;
   display: block;
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 }
 #sleepView, #mainView, #alarmView, #snoozeView, #playlistView {
   background-color: rgba(0,0,0,0.1);
@@ -44,7 +49,18 @@ a {
   padding-bottom: 30px;
 }
 .media-object {
-  width:150px;
+  width:100px;
+}
+.nowPlaying {
+  font-size: 12pt;
+  width:80%;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(255,255,255,0.1);
+  padding:20px;
+}
+#playlist {
+  color:#000;
 }
 #viewProfile #viewUserImg, #viewprofile .mainuserimg{
   width:100%;
@@ -86,16 +102,8 @@ a {
 #searchbutton { 
   width:100%;
 }
-#navbartitle {
-  background-image: url('images/instagram.gif');
-  background-repeat: no-repeat;
-  font:14px 'Montserrat', sans-serif;
-  text-transform: uppercase;
-  display: block;
-  padding: 5px 0 18px 108px;
-  font-weight: 700;
-  background-size: 100px 30px;
-  letter-spacing: 1px;
+#logo {
+  font-size: 30pt;
 }
 #navbar {
   padding: 20px 0px 5px 0px;
@@ -109,9 +117,7 @@ a {
 #contentcontainer{ 
   width:75%;
 }
-.sidesquish{ 
-  padding:0px 50px 0px 50px;
-}
+
 .inner-addon {
   color: #000000;
   position: relative;
@@ -138,55 +144,65 @@ a {
     to { transform: scale(1) rotate(360deg);}
 }
 
-#newGroup .modal-dialog, #editgroup .modal-dialog, #addToGroup .modal-dialog {
-  width:400px;
-  margin-left: auto;
-  margin-right: auto; 
-}
-#newGroup .modal-body, #editgroup .modal-body, #addToGroup .modal-body{  
-  overflow: auto;
-  max-height: 65vh;
-}
-
-/*mediaView*/
-#mediaView .modal-content {
-  border-radius: 0;  
-}
-#mediaView .modal-dialog {
-  min-width:70%;  
-}
-#mediaViewmedia #media {
-  width:100%;
-}
-#mediaViewmedia {
-  width:60%;
-  display:inline-block;
-}
-#mediaViewtext {
-  width:39%;
-  display:inline-block;
-  vertical-align: top;
-  overflow:auto;
-  max-height:90vh;
-}
-#mediaViewusername {
-  font-size: 16px;
-}
-#mediaViewuserimg {
-  width:40px;
-  margin-right:8px;
-}
-#mediaViewcaption {  
-  overflow: auto;
-  /*height: 100%;*/
-}
-.mediausername {
-  font-size: 12px;
-}
-.mediauserimg {
-  width:25px;
+.playlistImg {
+  width:100px;
   margin-right:8px;
   border-radius: 100%;
+  display: inline-block;
+}
+.play {
+  font:14px 'Montserrat', sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  width: 200px;
+  padding:5px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  outline: none;
+  display: inline-block;
+  text-align: center;
+  margin-top:5px;
+}
+.openinspotify, .openinspotify:visited {
+  font:14px 'Montserrat', sans-serif;
+  font-weight: 400;  
+  width: 200px;
+  padding:5px;  
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  outline: none;
+  display: inline-block;
+  text-align: center;
+  margin-top:5px;
+}
+.musicplayer {
+  font-size: 15px;
+  padding: 15px;
+  color:#000000;
+  margin:0 10px 0px 0;
+  overflow: hidden;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+.musicplayer div {
+  display: table-cell;
+  vertical-align: middle;
+}
+.musicplayer .albumcover {
+  width:25%;
+}
+.musicplayer img {
+  width:100%;
+  border-radius: 100%;
+}
+.musicplayer .info {
+  display: table-cell;
+  padding-left: 5%;
+}
+.title {
+  font: 20px 'Montserrat', sans-serif;
+  margin-bottom: 5px;
 }
 .thumbnail img, .thumbnail video {
   width:100%;

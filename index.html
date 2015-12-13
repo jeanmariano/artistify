@@ -16,8 +16,7 @@
     <div class="row" id="navbar">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
-        <h1>zzzify</h1>
-        <small>alarm clock and DJ in one!</small>
+        <span id="logo">zzzify</span><img src="logo.png" width="100"><br>
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>  
@@ -27,18 +26,21 @@
       <div class="col-md-8 col-lg-6 text-center">
         <br>        
         <span class="clock"></span>
-        <div class="media text-left">
+        <h3>Current Playing:</h3>
+        <div class="media text-left nowPlaying">
           <div class="media-left">
             <a href="#">
-              <img class="media-object img-circle" src="placeholder.jpg">
+              <img class="media-object" src="placeholder.jpg">
             </a>
           </div>
           <div class="media-body">
-            <h4 class="media-heading">Song name</h4>
-            Artist - Album
+            <h3 class="media-heading">Song name</h3>
+            Artist<br>
+            <i>Album</i>
           </div>
         </div><br>
-        <b>Time until alarm:</b> 2 hours<br><br>
+          
+        <p><b>Time until alarm:</b> 2 hours<br><br></p>
         <button class="btn btn-lg btn-danger" onclick="goToView('main','sleep')">Cancel This Alarm</button>
         <button class="btn btn-lg btn-default" onclick="goToView('alarm','sleep')">Test Alarm</button>
       </div>
@@ -49,18 +51,20 @@
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">        
         <span class="clock"></span>
-        <div class="media text-left">
+        <h3>Current Playing:</h3>
+        <div class="media text-left nowPlaying">
           <div class="media-left">
             <a href="#">
               <img class="media-object" src="placeholder.jpg">
             </a>
           </div>
           <div class="media-body">
-            <h4 class="media-heading">Song name</h4>
-            Artist - Album
+            <h3 class="media-heading">Song name</h3>
+            Artist<br>
+            <i>Album</i>
           </div>
         </div><br>
-        <h1>Wake up!</h1>
+        <h1>It is time to wake up!</h1>
         <button class="btn btn-lg btn-default" onclick="goToView('snooze','alarm')">Snooze</button>
         <button class="btn btn-lg btn-primary" onclick="goToView('playlist','alarm')">I am awake</button>
       </div>
@@ -71,15 +75,17 @@
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">        
         <span class="clock"></span>
-        <div class="media text-left">
+        <h3>Current Playing:</h3>
+        <div class="media text-left nowPlaying">
           <div class="media-left">
             <a href="#">
               <img class="media-object" src="placeholder.jpg">
             </a>
           </div>
           <div class="media-body">
-            <h4 class="media-heading">Song name</h4>
-            Artist - Album
+            <h3 class="media-heading">Song name</h3>
+            Artist<br>
+            <i>Album</i>
           </div>
         </div><br>
         <b>Snoozing for 5 minutes...<br><br>       
@@ -92,15 +98,38 @@
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">        
         <h1>Here is your playlist</h1>
-        <div class="list-group">
-          <a href="#" class="list-group-item active">
-            Cras justo odio
-          </a>
-          <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-          <a href="#" class="list-group-item">Morbi leo risus</a>
-          <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-          <a href="#" class="list-group-item">Vestibulum at eros</a>
-        </div> 
+        <ul class="list-group" id="playlist">
+          <li class="musicplayer list-group-item text-left">
+            <div class="albumcover">
+              <img src="https://i.scdn.co/image/5fa61e72315f3312efda94c68762b5611c823405">
+            </div>
+            <div class="info">
+              <span class="title">Mitzdi (Mallive Remix)</span><br>
+              <div style="vertical-align: top;">
+                <b style="display:inline-block; height:25px;">Whynnel</b> <!-- artist -->
+                <iframe src="https://embed.spotify.com/follow/1/?uri=spotify:artist:1vCWHaC5f2uS3yhpwWbIA6&size=basic&theme=light&show-count=0" width="200" height="25" scrolling="no" frameborder="0" style="border:none; overflow:hidden; display:inline-block;" allowtransparency="true"></iframe>
+              </div>
+              <br>
+              <i>Mitzdi (Mallive Remix)</i><br>
+              <button class="play btn btn-primary">
+                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                Preview Track
+                <audio class="audioDemo" controls="" preload="none">
+                <source src="https://p.scdn.co/mp3-preview/0d93ab779dd20e47fad88b258400de82551574f1" type="audio/mpeg">
+                </audio>
+              </button>
+              <a class="openinspotify btn btn-default" href="https://play.spotify.com/track/3DARtGyrVHzTpQH5qEWSND" target="_blank">
+                <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                Open in Spotify
+              </a>
+            </div>
+
+          </li>
+          <li class="list-group-item">Dapibus ac facilisis in</li>
+          <li class="list-group-item">Morbi leo risus</li>
+          <li class="list-group-item">Porta ac consectetur ac</li>
+          <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
         <button class="btn btn-lg btn-default" onclick="goToView('main','playlist')">New alarm</button>
         <button class="btn btn-lg btn-primary" onclick="alert('whoa')">Save this alarm</button>
       </div>
@@ -121,25 +150,36 @@
         Preferred Genres
         <div class="row">
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Mariah</a>
+            <a class="list-group-item">Pop</a>
           </div>
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Carey</a>              
+            <a class="list-group-item">Rock</a>              
           </div>
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Rap</a>
+            <a class="list-group-item">Indie</a>
           </div>
         </div>
         <br/>
         <div class="row">
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Mariah</a>
+            <a class="list-group-item">Electronic</a>
           </div>
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Carey</a>              
+            <a class="list-group-item">Country</a>              
           </div>
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Rap</a>
+            <a class="list-group-item">Folk</a>
+          </div>
+        </div><br/>
+        <div class="row">
+          <div class="col-md-4 col-xs-4">
+            <a class="list-group-item">Jazz</a>
+          </div>
+          <div class="col-md-4 col-xs-4">
+            <a class="list-group-item">Metal</a>              
+          </div>
+          <div class="col-md-4 col-xs-4">
+            <a class="list-group-item">Blues</a>
           </div>
         </div>
         <br/>
