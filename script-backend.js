@@ -49,10 +49,13 @@
       callback(
         data.tracks.filter(function(track) { return (track.preview_url !== null)})
         .map(function(track) {
+          console.log(track);
           return {
             preview_url: track.preview_url,
             track_name: track.name,
+            track_id: track.id,
             artist_name: track.artists[0].name,
+            artist_id: track.artists[0].id,
             album_image: track.album.images[1].url,
             album_name: track.album.name,
             album_url: track.album.href
