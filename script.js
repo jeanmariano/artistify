@@ -44,6 +44,11 @@ function sleepNow() {
     playMusic();
 }
 
+function wakeUp() {
+    goToView('playlist','alarm');
+    audio.pause();    
+}
+
 function cancelAlarm() {
     goToView('main','sleep');
     audio.pause();
@@ -80,6 +85,7 @@ function renderPlaylist(list) {
     }
     $('#playlist').empty();
     $('#playlist').append(html);
+    listenForPlays();
 }
 
 function renderPlaylistEntry(albumCover, song, artist, artistId, albumName, previewUrl, trackId) {
@@ -89,23 +95,26 @@ function renderPlaylistEntry(albumCover, song, artist, artistId, albumName, prev
       '</div>'+
       '<div class="info">'+
         '<span class="title">'+song+'</span><br>'+
-        '<div>'+
-          '<b style="display:inline-block; height:25px;">'+artist+'</b>'+
-          '<iframe src="https://embed.spotify.com/follow/1/?uri=spotify:artist:'+artistId+'&size=basic&theme=light&show-count=0" width="200" height="25" scrolling="no" frameborder="0" style="border:none; overflow:hidden; display:inline-block;" allowtransparency="true"></iframe>'+
-        '</div>'+
-        '<br>'+  
-        '<i>'+albumName+'</i><br>'+
-        '<button class="play btn btn-primary">'+
-          '<span class="glyphicon glyphicon-play" aria-hidden="true"></span>'+
-          'Preview Track'+
-          '<audio class="audioDemo" controls="" preload="none">'+
-          '<source src="'+previewUrl+'" type="audio/mpeg">'+
-          '</audio>'+
-        '</button> '+
-        '<a class="openinspotify btn btn-default" href="https://play.spotify.com/track/'+trackId+'" target="_blank">'+
-          '<span class="glyphicon glyphicon-link" aria-hidden="true"></span>'+
-          'Open in Spotify'+
-        '</a>'+
+        '<i>'+albumName+'</i><br>'+ 
+        '<b style="display:inline-block; height:25px;">'+artist+'</b>'+
+        '<div style="display:table; width:100%">'+
+          '<div style="width:50%; vertical-align:top;">'+
+            '<iframe src="https://embed.spotify.com/follow/1/?uri=spotify:artist:'+artistId+'&size=basic&theme=light&show-count=0" width="200" height="25" scrolling="no" frameborder="0" style="border:none; overflow:hidden; display:inline-block;" allowtransparency="true"></iframe>'+
+          '</div>'+
+          '<div style="width:50%; text-align:right;">'+
+            '<button class="play btn btn-primary">'+
+              '<span class="glyphicon glyphicon-play" aria-hidden="true"></span>'+
+              ' Preview Track'+
+              '<audio class="audioDemo" controls="" preload="none">'+
+              '<source src="'+previewUrl+'" type="audio/mpeg">'+
+              '</audio>'+
+            '</button><br/>'+
+            '<a class="openinspotify btn btn-default" href="https://play.spotify.com/track/'+trackId+'" target="_blank">'+
+              '<span class="glyphicon glyphicon-link" aria-hidden="true"></span>'+
+              ' Open in Spotify'+
+            '</a>'+
+          '</div>'+
+        '</div>'+                      
       '</div>'+
     '</li>';
     return html;
@@ -130,6 +139,24 @@ function playMusic() {
         $('#artistName').text(queue[0].artist_name)
         $('#songName').text(queue[0].track_name);
     }); 
+}
+
+function listenForPlays() {
+  $('.play').click(function() {
+    clicked = $(this).children('audio')[0];
+    if (clicked.paused) {
+      clicked.play();
+      button = $(this).children('span');
+      button.removeClass('glyphicon-play');
+      button.addClass('glyphicon-pause');
+    }
+    else {
+      clicked.pause();
+      button = $(this).children('span');
+      button.removeClass('glyphicon-pause');
+      button.addClass('glyphicon-play');
+    }
+  })
 }
 
 getSleepySongs(queueSongs);
