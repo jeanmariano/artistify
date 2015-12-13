@@ -4,6 +4,7 @@
   var SPOTIFY_CLIENT_SECRET = "56ff8540a44a4a42b0c611a7cfc05331";
   var SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token";
   var AUTH = "Basic NzRhNzVmYWY4ZTA0NGU5MTkzYzJjMzg1ZGFiZGUzMmY6NTZmZjg1NDBhNDRhNGE0MmIwYzYxMWE3Y2ZjMDUzMzE=";
+  var SPOTIFY_ALBUM = "https://api.spotify.com/v1/albums/";
 
   // sends a list of previews to the callback
   // max 10 songs at a time ?
@@ -18,13 +19,25 @@
     });
   }
 
+  // return array of preview urls to callback
+  function getTracksFromAlbumId(id, callback) {
+    var url =  SPOTIFY_ALBUM + id + "/tracks?market=US";
+    $.ajax(ajaxObj(url)).done(function(data) {
+      var urls = data.items.map(function(item) {
+        return item.preview_url;
+      });
+      callback(urls);
+    });
+
+  }
+
   // for making ajax obj w any url
   function ajaxObj(url) {
     return {
         type: 'GET',
         headers: {Accept: 'application/json'},
         url: url,
-        dataType: "json"
+        dataType: "json",
     }
   }
 
