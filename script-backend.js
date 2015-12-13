@@ -8,7 +8,7 @@
   var ECHONEST_URL = "http://developer.echonest.com/api/v4/song/search?api_key=WVDL4YATREDEMFPC1&format=json&bucket=id:spotify&bucket=tracks";
   var TEMP = "&min_energy=0.6&min_danceability=0.6";
   var TEMP2 = "&style=rock";
-  var ENERGY_ASC = "&sort=energy-asc"
+  var ENERGY_ASC = "&sort=energy-asc";
 
   // sends a list of previews to the callback
   // max 10 songs at a time ?
@@ -47,14 +47,8 @@
     getTracksFromAlbumId("76GPenASUzBpitFNplLJKI", callback);
   }
 
-  function getWakeySongs(callback, genre) {
-    var base_url = ECHONEST_URL + ENERGY_ASC;
-    if (genre !== "") {
-      base_url = base_url + "&style=" + genre;
-    }
-
-
-    $.when(songGroup(0.6, genre), songGroup(0.65, genre), songGroup(0.7, genre), songGroup(0.75, genre), songGroup(0.8, genre), songGroup(0.85, genre))
+  function getWakeySongs(callback, genres) {
+    $.when(songGroup(0.6, genres), songGroup(0.65, genres), songGroup(0.7, genres), songGroup(0.75, genres), songGroup(0.8, genres), songGroup(0.85, genres))
     .done(function(a1, a2, a3, a4, a5, a6){
       var ids = ([a1,a2,a3,a4,a5,a6].map(function(data) {
         return getForeignIdsEchonest(data[0]);
@@ -72,10 +66,11 @@
     });
   }
 
-  function songGroup(level, genre) {
+  function songGroup(level, genres) {
     var base_url = ECHONEST_URL + ENERGY_ASC;
-    if (genre !== "") {
-      base_url = base_url + "&style=" + genre;
+    if (genres.length !== 0) {
+      var genre_string = genres.join("&style=");
+      base_url = base_url + "&style=" + genre_string;
     }
     var url = base_url + "&min_danceability=" + level;
     url = url + "&min_energy=" + level;
