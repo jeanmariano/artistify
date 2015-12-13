@@ -1,6 +1,7 @@
 var selectGenres = [];
 var queue = [];
 var audio = new Audio();
+
 function startTime() {
         var today = new Date();
         var h = today.getHours();
@@ -38,15 +39,30 @@ function toggleActive(obj) {
 
 function sleepNow() {
     getWakeySongs(queuePlaylist,selectGenres);
-    goToView('sleep','main');
+    goToView('alarmMusic','main');
     $('#genreList .list-group-item').removeClass('active');
     selectGenres = [];
     playMusic();
 }
 
 function wakeUp() {
-    goToView('playlist','alarm');
+    goToView('playlist','alarmMusic');
+    initializeAlarmView();
     audio.pause();    
+}
+
+function alarmGo() {
+  audio.play();
+  goToView('alarm','sleep');
+}
+
+function snoozeAlarm() {
+  goToView('snooze','alarm');
+  audio.pause();
+  setTimeout(function() {
+    audio.play();
+    goToView('alarm','snooze');
+  },500);
 }
 
 function cancelAlarm() {
@@ -56,8 +72,10 @@ function cancelAlarm() {
     getSleepySongs(queueSongs);
 }
 
-function display(list) {
-    console.log(list)
+function newAlarm() {
+  goToView('main','playlist');
+  audio.pause();
+  queue = [];  
 }
 
 function queuePlaylist(list) {
@@ -77,11 +95,11 @@ function renderPlaylist(list) {
         var albumCover =cur.album_image,
             song = cur.track_name,
             artist = cur.artist_name,
-            artistId = '',
+            artistId = cur.artist_id,
             albumName = cur.album_name,
             previewUrl = cur.preview_url,
-            trackId = '';
-        html = html+renderPlaylistEntry(albumCover, song, artist, '1vCWHaC5f2uS3yhpwWbIA6', albumName, previewUrl, trackId);
+            trackId = cur.track_id;
+        html = html+renderPlaylistEntry(albumCover, song, artist, artistId, albumName, previewUrl, trackId);
     }
     $('#playlist').empty();
     $('#playlist').append(html);
@@ -119,8 +137,7 @@ function renderPlaylistEntry(albumCover, song, artist, artistId, albumName, prev
     '</li>';
     return html;
 }
-    
-// }
+   
 function playMusic() {
     $('#albumCover').attr('src',queue[0].album_image);
     $('#albumName').text(queue[0].album_name)
@@ -159,14 +176,19 @@ function listenForPlays() {
   })
 }
 
+function initializeAlarmView() {
+    $('#sleepView').css('display','block');
+    $('#alarmView').css('display','none');
+    $('#snoozeView').css('display','none');
+}
+
 getSleepySongs(queueSongs);
 
 $(document).ready(function() {
     startTime()
     checkTime()
-    $('#sleepView').css('display','none');
-    $('#alarmView').css('display','none');
-    $('#snoozeView').css('display','none');
+    $('#alarmMusicView').css('display','none');
+    initializeAlarmView();
     $('#playlistView').css('display','none');
 
     $('#genreList').on('click','.list-group-item',function(e) {

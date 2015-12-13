@@ -66,76 +66,36 @@
       <div class="col-md-2 col-lg-3"></div>
     </div>
 
-    <div class="row" id="sleepView">
+    <div class="row" id="alarmMusicView">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
         <br>
         <span class="clock"></span>
         <h3>Here's some tunes to help you sleep.</h3>
-        <div class="media text-left nowPlaying">
-          <audio id="player"></audio>
-
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="placeholder.jpg" id="albumCover">
-            </a>
+        <div class="musicplayer  text-left nowPlaying">
+          <div class="albumcover">
+            <img src="placeholder.jpg" id="albumCover">
           </div>
-          <div class="media-body">
-            <h3 class="media-heading" id="songName">Song name</h3>
-            <span id="artistName">Artist</span><br>
-            <i id="albumName">Album</i>
+          <div class="info">
+            <h3 class="title" id="songName">Song name</h3>
+            <i id="albumName">Album</i><br>         
+            <b id="artistName">Artist</b><br>
           </div>
         </div><br>
-        <p><b>We will wake you up in</b> 2 hours<br></p>
-        <button class="btn btn-lg btn-danger" onclick="cancelAlarm()" id="cancelAlarm">Cancel This Alarm</button>
-        <button class="btn btn-lg btn-default" onclick="goToView('alarm','sleep')">Test Alarm</button>
-      </div>
-      <div class="col-md-2 col-lg-3"></div>
-    </div>
-
-    <div class="row" id="alarmView">
-      <div class="col-md-2 col-lg-3"></div>
-      <div class="col-md-8 col-lg-6 text-center">
-        <span class="clock"></span>
-        <h3>Current Playing:</h3>
-        <div class="media text-left nowPlaying">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="placeholder.jpg">
-            </a>
-          </div>
-          <div class="media-body">
-            <h3 class="media-heading">Song name</h3>
-            Artist<br>
-            <i>Album</i>
-          </div>
-        </div><br>
-        <h1>It is time to wake up!</h1>
-        <button class="btn btn-lg btn-default" onclick="goToView('snooze','alarm')">Snooze</button>
-        <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>
-      </div>
-      <div class="col-md-2 col-lg-3"></div>
-    </div>
-
-    <div class="row" id="snoozeView">
-      <div class="col-md-2 col-lg-3"></div>
-      <div class="col-md-8 col-lg-6 text-center">
-        <span class="clock"></span>
-        <h3>Current Playing:</h3>
-        <div class="media text-left nowPlaying">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="placeholder.jpg">
-            </a>
-          </div>
-          <div class="media-body">
-            <h3 class="media-heading">Song name</h3>
-            Artist<br>
-            <i>Album</i>
-          </div>
-        </div><br>
-        <b>Snoozing for 5 minutes...<br><br>
-        <button class="btn btn-lg btn-primary" onclick="goToView('playlist','snooze')">I am awake</button>
+        <div id="sleepView">
+          <p>We will wake you up in <b>2 hours<b></p>
+          <button class="btn btn-lg btn-danger" onclick="cancelAlarm()" id="cancelAlarm">Cancel This Alarm</button>
+          <button class="btn btn-lg btn-default" onclick="alarmGo()">Test Alarm</button>
+        </div>
+        <div id="alarmView">
+          <h1>It is time to wake up!</h1>
+          <button class="btn btn-lg btn-default" onclick="snoozeAlarm()">Snooze</button>
+          <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>
+        </div>
+        <div id="snoozeView">
+          <p><b>Snoozing for <b>5 minutes</b>...</p>
+          <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>          
+        </div>
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>
@@ -145,33 +105,8 @@
       <div class="col-md-8 col-lg-6 text-center">
         <h1>Here is your playlist</h1>
         <ul class="list-group" id="playlist">
-          <!-- <li class="musicplayer list-group-item text-left">
-            <div class="albumcover">
-              <img src="https://i.scdn.co/image/5fa61e72315f3312efda94c68762b5611c823405">
-            </div>
-            <div class="info">
-              <span class="title">Mitzdi (Mallive Remix)</span><br>
-              <div style="vertical-align: top;">
-                <b style="display:inline-block; height:25px;">Whynnel</b>
-                <iframe src="https://embed.spotify.com/follow/1/?uri=spotify:artist:1vCWHaC5f2uS3yhpwWbIA6&size=basic&theme=light&show-count=0" width="200" height="25" scrolling="no" frameborder="0" style="border:none; overflow:hidden; display:inline-block;" allowtransparency="true"></iframe>
-              </div>
-              <br>
-              <i>Mitzdi (Mallive Remix)</i><br>
-              <button class="play btn btn-primary">
-                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                Preview Track
-                <audio class="audioDemo" controls="" preload="none">
-                <source src="https://p.scdn.co/mp3-preview/0d93ab779dd20e47fad88b258400de82551574f1" type="audio/mpeg">
-                </audio>
-              </button>
-              <a class="openinspotify btn btn-default" href="https://play.spotify.com/track/3DARtGyrVHzTpQH5qEWSND" target="_blank">
-                <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
-                Open in Spotify
-              </a>
-            </div>
-          </li> -->
         </ul>
-        <button class="btn btn-lg btn-default" onclick="goToView('main','playlist')">New alarm</button>
+        <button class="btn btn-lg btn-default" onclick="newAlarm()">New alarm</button>
         <button class="btn btn-lg btn-primary" onclick="alert('whoa')">Save this alarm</button>
       </div>
       <div class="col-md-2 col-lg-3"></div>
