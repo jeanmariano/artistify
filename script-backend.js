@@ -5,6 +5,10 @@
   var SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token";
   var AUTH = "Basic NzRhNzVmYWY4ZTA0NGU5MTkzYzJjMzg1ZGFiZGUzMmY6NTZmZjg1NDBhNDRhNGE0MmIwYzYxMWE3Y2ZjMDUzMzE=";
   var SPOTIFY_ALBUM = "https://api.spotify.com/v1/albums/";
+  var ECHONEST_URL = "http://developer.echonest.com/api/v4/song/search?api_key=WVDL4YATREDEMFPC1&format=json&bucket=id:spotify&bucket=tracks";
+  var TEMP = "&min_energy=0.6&min_danceability=0.6";
+  var TEMP2 = "&style=rock";
+  var ENERGY_ASC = "&sort=energy-asc"
 
   // sends a list of previews to the callback
   // max 10 songs at a time ?
@@ -13,7 +17,14 @@
     $.ajax(ajaxObj(url)).done(function(data) {
       callback(
         data.tracks.map(function(track) {
-          return track.preview_url;
+          return {
+            preview_url: track.preview_url,
+            track_name: track.name,
+            artist_name: track.artists[0].name,
+            album_image: track.album.images[1].url,
+            album_name: track.album.name,
+            album_url: track.album.href
+          };
         })
       );
     });
@@ -23,12 +34,52 @@
   function getTracksFromAlbumId(id, callback) {
     var url =  SPOTIFY_ALBUM + id + "/tracks?market=US";
     $.ajax(ajaxObj(url)).done(function(data) {
-      var urls = data.items.map(function(item) {
-        return item.preview_url;
+      var ids = data.items.map(function(item) {
+        return item.id;
       });
-      callback(urls);
+      getPreviewsFromSpotifyIds(ids, callback);
     });
 
+  }
+
+  // from playlist
+  function getSleepySongs(callback) {
+    getTracksFromAlbumId("76GPenASUzBpitFNplLJKI", callback);
+  }
+
+  function getWakeySongs(callback, genre) {
+    var base_url = ECHONEST_URL + ENERGY_ASC;
+    if (genre !== "") {
+      base_url = base_url + "&style=" + genre;
+    }
+
+
+    $.when(songGroup(0.6, genre), songGroup(0.65, genre), songGroup(0.7, genre), songGroup(0.75, genre), songGroup(0.8, genre), songGroup(0.85, genre))
+    .done(function(a1, a2, a3, a4, a5, a6){
+      var ids = ([a1,a2,a3,a4,a5,a6].map(function(data) {
+        return getForeignIdsEchonest(data[0]);
+      }));
+      getPreviewsFromSpotifyIds(ids, callback);
+
+    });
+  }
+
+  function getForeignIdsEchonest(data) {
+    return data.response.songs
+    .filter(function(song, index) { return (song.tracks.length > 0 && index < 10) })
+    .map(function(song) {
+      return song.tracks[0].foreign_id.split(":")[2];
+    });
+  }
+
+  function songGroup(level, genre) {
+    var base_url = ECHONEST_URL + ENERGY_ASC;
+    if (genre !== "") {
+      base_url = base_url + "&style=" + genre;
+    }
+    var url = base_url + "&min_danceability=" + level;
+    url = url + "&min_energy=" + level;
+    return $.ajax(ajaxObj(url));
   }
 
   // for making ajax obj w any url
@@ -66,16 +117,6 @@
     $.ajax(ajaxTokenObj(SPOTIFY_TOKEN_URL)).done(function(data) {
       callback(data.access_token);
     });
-  }
-
-
-  // from playlist
-  function getSleepySongs() {
-
-  }
-
-  function getWakeUpSongs(genre) {
-
   }
 
   // your application requests authorization
