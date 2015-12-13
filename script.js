@@ -48,7 +48,7 @@ function sleepNow() {
 function wakeUp() {
     goToView('playlist','alarmMusic');
     initializeAlarmView();
-    audio.pause();    
+    audio.pause();
 }
 
 function alarmGo() {
@@ -66,7 +66,7 @@ function snoozeAlarm() {
 }
 
 function cancelAlarm() {
-    goToView('main','sleep');
+    goToView('main','alarmMusic');
     audio.pause();
     queue = [];
     getSleepySongs(queueSongs);
@@ -75,7 +75,7 @@ function cancelAlarm() {
 function newAlarm() {
   goToView('main','playlist');
   audio.pause();
-  queue = [];  
+  queue = [];
 }
 
 function queuePlaylist(list) {
@@ -88,7 +88,7 @@ function queueSongs(list) {
     console.log(queue);
 }
 
-function renderPlaylist(list) {    
+function renderPlaylist(list) {
     var html = '';
     for (var i=0; i < list.length; i++) {
         var cur = list[i];
@@ -113,7 +113,7 @@ function renderPlaylistEntry(albumCover, song, artist, artistId, albumName, prev
       '</div>'+
       '<div class="info">'+
         '<span class="title">'+song+'</span><br>'+
-        '<i>'+albumName+'</i><br>'+ 
+        '<i>'+albumName+'</i><br>'+
         '<b style="display:inline-block; height:25px;">'+artist+'</b>'+
         '<div style="display:table; width:100%">'+
           '<div style="width:50%; vertical-align:top;">'+
@@ -132,17 +132,17 @@ function renderPlaylistEntry(albumCover, song, artist, artistId, albumName, prev
               ' Open in Spotify'+
             '</a>'+
           '</div>'+
-        '</div>'+                      
+        '</div>'+
       '</div>'+
     '</li>';
     return html;
 }
-   
+
 function playMusic() {
     $('#albumCover').attr('src',queue[0].album_image);
     $('#albumName').text(queue[0].album_name)
     $('#artistName').text(queue[0].artist_name)
-    $('#songName').text(queue[0].track_name);    
+    $('#songName').text(queue[0].track_name);
     audio = new Audio(queue[0].preview_url);
     audio.play();
     audio.addEventListener('ended',function(){
@@ -155,7 +155,7 @@ function playMusic() {
         $('#albumName').text(queue[0].album_name)
         $('#artistName').text(queue[0].artist_name)
         $('#songName').text(queue[0].track_name);
-    }); 
+    });
 }
 
 function listenForPlays() {
