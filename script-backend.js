@@ -10,6 +10,33 @@
   var TEMP2 = "&style=rock";
   var ENERGY_ASC = "&sort=energy-asc";
 
+  function saveAlarm(time, genres) {
+    var largest_key = 0;
+    store.forEach(function(key, val) {
+      if (key > largest_key) {
+        largest_key = key;
+      }
+    })
+    largest_key = parseInt(largest_key) + 1;
+    store.set(largest_key, {
+      id: largest_key,
+      time: time,
+      genres: genres
+    });
+  }
+
+  function getAlarms() {
+    var alarms = [];
+    store.forEach(function(key, val) {
+      alarms = alarms.concat(val);
+    });
+    return alarms;
+  }
+
+  function deleteAlarm(id) {
+    store.remove(id);
+  }
+
   // sends a list of previews to the callback
   // max 10 songs at a time ?
   function getPreviewsFromSpotifyIds(ids, callback) {
