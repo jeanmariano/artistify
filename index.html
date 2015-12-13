@@ -4,8 +4,7 @@
   <title>zzzify</title>
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-  <script src="moment.js"></script>
-  <script src="script.js"></script>
+  <script src="moment.js"></script>  
   <script src="store.min.js"></script>
   <script src="script-backend.js"></script>
   <script src="script.js"></script>
@@ -85,7 +84,7 @@
             <i id="albumName">Album</i>
           </div>
         </div><br>
-        <p><b>We will wake you up in</b> 2 hours<br><br></p>
+        <p><b>We will wake you up in</b> 2 hours<br></p>
         <button class="btn btn-lg btn-danger" onclick="cancelAlarm()" id="cancelAlarm">Cancel This Alarm</button>
         <button class="btn btn-lg btn-default" onclick="goToView('alarm','sleep')">Test Alarm</button>
       </div>
@@ -144,14 +143,14 @@
       <div class="col-md-8 col-lg-6 text-center">
         <h1>Here is your playlist</h1>
         <ul class="list-group" id="playlist">
-          <li class="musicplayer list-group-item text-left">
+          <!-- <li class="musicplayer list-group-item text-left">
             <div class="albumcover">
               <img src="https://i.scdn.co/image/5fa61e72315f3312efda94c68762b5611c823405">
             </div>
             <div class="info">
               <span class="title">Mitzdi (Mallive Remix)</span><br>
               <div style="vertical-align: top;">
-                <b style="display:inline-block; height:25px;">Whynnel</b> <!-- artist -->
+                <b style="display:inline-block; height:25px;">Whynnel</b>
                 <iframe src="https://embed.spotify.com/follow/1/?uri=spotify:artist:1vCWHaC5f2uS3yhpwWbIA6&size=basic&theme=light&show-count=0" width="200" height="25" scrolling="no" frameborder="0" style="border:none; overflow:hidden; display:inline-block;" allowtransparency="true"></iframe>
               </div>
               <br>
@@ -168,12 +167,7 @@
                 Open in Spotify
               </a>
             </div>
-
-          </li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Morbi leo risus</li>
-          <li class="list-group-item">Porta ac consectetur ac</li>
-          <li class="list-group-item">Vestibulum at eros</li>
+          </li> -->
         </ul>
         <button class="btn btn-lg btn-default" onclick="goToView('main','playlist')">New alarm</button>
         <button class="btn btn-lg btn-primary" onclick="alert('whoa')">Save this alarm</button>
