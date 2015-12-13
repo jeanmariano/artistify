@@ -5,8 +5,7 @@ function startTime() {
         var s = today.getSeconds();
         m = checkTime(m);
         s = checkTime(s);
-        document.getElementById('clock').innerHTML =
-        h + ":" + m + ":" + s;
+        $('.clock').text(h + ":" + m + ":" + s);
         var t = setTimeout(startTime, 500);
     }
     function checkTime(i) {
@@ -31,4 +30,7 @@ $(document).ready(function() {
     startTime()
     checkTime()        
     $('#sleepView').css('display','none');    
+    $('#alarmView').css('display','none'); 
+    $('#snoozeView').css('display','none');    
+    $('#playlistView').css('display','none'); 
 });
