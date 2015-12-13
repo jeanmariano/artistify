@@ -29,8 +29,8 @@
 
   //getSleepySongs(test);
 
-    // put name of any genre, or empty string for no genre
-  //  getWakeySongs(test, "");
+    // put array of genres, or empty array for no genre
+    getWakeySongs(test, []);
   </script>
 
 </head>
@@ -62,7 +62,7 @@
             <i>Album</i>
           </div>
         </div><br>
-          
+
         <p><b>Time until alarm:</b> 2 hours<br><br></p>
         <button class="btn btn-lg btn-danger" onclick="goToView('main','sleep')">Cancel This Alarm</button>
         <button class="btn btn-lg btn-default" onclick="goToView('alarm','sleep')">Test Alarm</button>
@@ -175,7 +175,7 @@
             <a class="list-group-item">Pop</a>
           </div>
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Rock</a>              
+            <a class="list-group-item">Rock</a>
           </div>
           <div class="col-md-4 col-xs-4">
             <a class="list-group-item">Indie</a>
@@ -187,7 +187,7 @@
             <a class="list-group-item">Electronic</a>
           </div>
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Country</a>              
+            <a class="list-group-item">Country</a>
           </div>
           <div class="col-md-4 col-xs-4">
             <a class="list-group-item">Folk</a>
