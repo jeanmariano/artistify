@@ -6,10 +6,33 @@
   <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   <script src="moment.js"></script>
   <script src="script.js"></script>
+  <script src="script-backend.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="styles.css" />  
+  <link rel="stylesheet" type="text/css" href="styles.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <script>
+
+    // sample callback
+    function test(url) {
+      console.log(url);
+    }
+
+    /* list of keys on each object returned in callback array
+      album_image
+      album_name
+      album_url
+      artist_name
+      preview_url
+      track_name
+    */
+
+  //getSleepySongs(test);
+
+    // put name of any genre, or empty string for no genre
+  //  getWakeySongs(test, "");
+  </script>
+
 </head>
 <body>
   <div class="container-fluid">
@@ -19,12 +42,12 @@
         <span id="logo">zzzify</span><img src="logo.png" width="100"><br>
       </div>
       <div class="col-md-2 col-lg-3"></div>
-    </div>  
+    </div>
 
     <div class="row" id="sleepView">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
-        <br>        
+        <br>
         <span class="clock"></span>
         <h3>Current Playing:</h3>
         <div class="media text-left nowPlaying">
@@ -49,7 +72,7 @@
 
     <div class="row" id="alarmView">
       <div class="col-md-2 col-lg-3"></div>
-      <div class="col-md-8 col-lg-6 text-center">        
+      <div class="col-md-8 col-lg-6 text-center">
         <span class="clock"></span>
         <h3>Current Playing:</h3>
         <div class="media text-left nowPlaying">
@@ -73,7 +96,7 @@
 
     <div class="row" id="snoozeView">
       <div class="col-md-2 col-lg-3"></div>
-      <div class="col-md-8 col-lg-6 text-center">        
+      <div class="col-md-8 col-lg-6 text-center">
         <span class="clock"></span>
         <h3>Current Playing:</h3>
         <div class="media text-left nowPlaying">
@@ -88,7 +111,7 @@
             <i>Album</i>
           </div>
         </div><br>
-        <b>Snoozing for 5 minutes...<br><br>       
+        <b>Snoozing for 5 minutes...<br><br>
         <button class="btn btn-lg btn-primary" onclick="goToView('playlist','snooze')">I am awake</button>
       </div>
       <div class="col-md-2 col-lg-3"></div>
@@ -96,7 +119,7 @@
 
     <div class="row" id="playlistView">
       <div class="col-md-2 col-lg-3"></div>
-      <div class="col-md-8 col-lg-6 text-center">        
+      <div class="col-md-8 col-lg-6 text-center">
         <h1>Here is your playlist</h1>
         <ul class="list-group" id="playlist">
           <li class="musicplayer list-group-item text-left">
@@ -135,7 +158,6 @@
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>
-
     <div class="row" id="mainView">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
@@ -176,7 +198,7 @@
             <a class="list-group-item">Jazz</a>
           </div>
           <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Metal</a>              
+            <a class="list-group-item">Metal</a>
           </div>
           <div class="col-md-4 col-xs-4">
             <a class="list-group-item">Blues</a>

@@ -28,9 +28,9 @@ function goToView(from,to) {
 
 $(document).ready(function() {
     startTime()
-    checkTime()        
-    $('#sleepView').css('display','none');    
-    $('#alarmView').css('display','none'); 
-    $('#snoozeView').css('display','none');    
-    $('#playlistView').css('display','none'); 
+    checkTime()
+    $('#sleepView').css('display','none');
+    $('#alarmView').css('display','none');
+    $('#snoozeView').css('display','none');
+    $('#playlistView').css('display','none');
 });
