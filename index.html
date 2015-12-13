@@ -8,6 +8,7 @@
   <script src="script.js"></script>
   <script src="store.min.js"></script>
   <script src="script-backend.js"></script>
+  <script src="script.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="styles.css" />
@@ -59,7 +60,7 @@
     <div class="row" id="navbar">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
-        <span id="logo">zzzify</span><img src="logo.png" width="100"><br>
+        <img src="logo.png" width="100"><br>
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>
@@ -69,22 +70,23 @@
       <div class="col-md-8 col-lg-6 text-center">
         <br>
         <span class="clock"></span>
-        <h3>Current Playing:</h3>
+        <h3>Here's some tunes to help you sleep.</h3>
         <div class="media text-left nowPlaying">
+          <audio id="player"></audio>
+
           <div class="media-left">
             <a href="#">
-              <img class="media-object" src="placeholder.jpg">
+              <img class="media-object" src="placeholder.jpg" id="albumCover">
             </a>
           </div>
           <div class="media-body">
-            <h3 class="media-heading">Song name</h3>
-            Artist<br>
-            <i>Album</i>
+            <h3 class="media-heading" id="songName">Song name</h3>
+            <span id="artistName">Artist</span><br>
+            <i id="albumName">Album</i>
           </div>
         </div><br>
-
-        <p><b>Time until alarm:</b> 2 hours<br><br></p>
-        <button class="btn btn-lg btn-danger" onclick="goToView('main','sleep')">Cancel This Alarm</button>
+        <p><b>We will wake you up in</b> 2 hours<br><br></p>
+        <button class="btn btn-lg btn-danger" onclick="cancelAlarm()" id="cancelAlarm">Cancel This Alarm</button>
         <button class="btn btn-lg btn-default" onclick="goToView('alarm','sleep')">Test Alarm</button>
       </div>
       <div class="col-md-2 col-lg-3"></div>
@@ -181,51 +183,54 @@
     <div class="row" id="mainView">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
-        <p>Wake me up by</p>
+        <h2>Wake me up at: </h2>
         <form class="form-inline">
           <div class="form-group">
             <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe"> :
             <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
           </div>
         </form>
-        <br>
-        Preferred Genres
-        <div class="row">
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Pop</a>
+        <br><br>
+        <h3>With music from these genres:</h3>
+        <div id="genreList">
+          <div class="row">
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Pop</a>
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Rock</a>
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Indie</a>
+            </div>
           </div>
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Rock</a>
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Indie</a>
+          <br/>
+          <div class="row">
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Electronic</a>
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Country</a>
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Folk</a>
+            </div>
+          </div><br/>
+          <div class="row">
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Jazz</a>
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Metal</a>
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <a class="list-group-item">Blues</a>
+            </div>
           </div>
         </div>
         <br/>
-        <div class="row">
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Electronic</a>
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Country</a>
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Folk</a>
-          </div>
-        </div><br/>
-        <div class="row">
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Jazz</a>
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Metal</a>
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <a class="list-group-item">Blues</a>
-          </div>
-        </div>
-        <br/>
-        <button class="btn btn-lg btn-primary" onclick="goToView('sleep','main')">Sleep now</button>
+        <p>Save this alarm playlist? <input type="checkbox"></p>
+        <button class="btn btn-lg btn-primary" onclick="sleepNow()" id="sleepNow">Sleep now</button>
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>

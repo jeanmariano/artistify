@@ -43,7 +43,8 @@
     var url = BASE_SPOTIFY_URL + ids.join(",");
     $.ajax(ajaxObj(url)).done(function(data) {
       callback(
-        data.tracks.map(function(track) {
+        data.tracks.filter(function(track) { return (track.preview_url !== null)})
+        .map(function(track) {
           return {
             preview_url: track.preview_url,
             track_name: track.name,
@@ -64,6 +65,7 @@
       var ids = data.items.map(function(item) {
         return item.id;
       });
+      shuffle(ids);
       getPreviewsFromSpotifyIds(ids, callback);
     });
 
@@ -84,6 +86,26 @@
 
     });
   }
+
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
   function getForeignIdsEchonest(data) {
     return data.response.songs
