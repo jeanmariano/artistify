@@ -40,7 +40,7 @@
   // sends a list of previews to the callback
   // max 10 songs at a time ?
   function getPreviewsFromSpotifyIds(ids, callback) {
-    console.log(ids);
+    // console.log(ids);
     var url = BASE_SPOTIFY_URL + ids.join(",");
     if (endsWith(url, ",")) {
       url = url.slice(0, -1);
@@ -49,7 +49,7 @@
       callback(
         data.tracks.filter(function(track) { return (track.preview_url !== null)})
         .map(function(track) {
-          console.log(track);
+          // console.log(track);
           return {
             preview_url: track.preview_url,
             track_name: track.name,
@@ -169,7 +169,7 @@ function shuffle(array) {
         },
         success:function(data)
         {
-          console.log(data);
+          // console.log(data);
         }
       }
     }
