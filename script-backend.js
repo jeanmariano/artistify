@@ -10,7 +10,10 @@
   var TEMP2 = "&style=rock";
   var ENERGY_ASC = "&sort=energy-asc";
 
-  function saveAlarm(time, genres) {
+  var preview_urls_to_save = [];
+
+  // saves the alarm
+  function saveAlarm(name, time, genres, songs, sleepy_music, snooze_time) {
     var largest_key = 0;
     store.forEach(function(key, val) {
       if (key > largest_key) {
@@ -20,11 +23,16 @@
     largest_key = parseInt(largest_key) + 1;
     store.set(largest_key, {
       id: largest_key,
+      name: name,
       time: time,
-      genres: genres
+      genres: genres,
+      songs: songs,
+      sleepy_music: sleepy_music,
+      snooze_time: snooze_time
     });
   }
 
+  // gets list of existing alarms
   function getAlarms() {
     var alarms = [];
     store.forEach(function(key, val) {
@@ -33,12 +41,12 @@
     return alarms;
   }
 
+  // deletes specified alarm
   function deleteAlarm(id) {
     store.remove(id);
   }
 
   // sends a list of previews to the callback
-  // max 10 songs at a time ?
   function getPreviewsFromSpotifyIds(ids, callback) {
     // console.log(ids);
     var url = BASE_SPOTIFY_URL + ids.join(",");
@@ -78,11 +86,12 @@
 
   }
 
-  // from playlist
+  // get songs for going to sleep
   function getSleepySongs(callback) {
     getTracksFromAlbumId("76GPenASUzBpitFNplLJKI", callback);
   }
 
+  // get songs for wake up
   function getWakeySongs(callback, genres) {
     var level = getRandomInt(55, 68);
     level = level/100.0;
@@ -125,6 +134,7 @@ function shuffle(array) {
   return array;
 }
 
+  // gets ids from echonest with appropriate params for wake up songs
   function getForeignIdsEchonest(data) {
     return data.response.songs
     .filter(function(song, index) { return (song.tracks.length > 0 && index < 10 && song.tracks[0].foreign_id ) })
@@ -132,15 +142,18 @@ function shuffle(array) {
       return song.tracks[0].foreign_id.split(":")[2];
     });
   }
-
+  // one set of songs, for a certain level of energy
   function songGroup(level, genres) {
     var base_url = ECHONEST_URL + ENERGY_ASC;
     if (genres.length !== 0) {
       var genre_string = genres.join("&style=");
       base_url = base_url + "&style=" + genre_string;
     }
-    var url = base_url + "&min_danceability=" + level;
+    var url = base_url;
+    //+ "&min_danceability=" + level;
     url = url + "&min_energy=" + level;
+    url = url + "&max_loudness=" + (((100-(level*100))*-1)+30);
+    url = url + "&min_loudness=" + (100-(level*100))*-1;
     return $.ajax(ajaxObj(url));
   }
 
@@ -192,22 +205,3 @@ function shuffle(array) {
     },
     json: true
   };
-/*
-  request.post(authOptions, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-
-      // use the access token to access the Spotify Web API
-      var token = body.access_token;
-      var options = {
-        url: 'https://api.spotify.com/v1/users/jmperezperez',
-        headers: {
-          'Authorization': 'Bearer ' + token
-        },
-        json: true
-      };
-      request.get(options, function(error, response, body) {
-        console.log(body);
-      });
-    }
-  });
-*/
