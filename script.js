@@ -4,7 +4,7 @@ var selectGenres = [],
     sleepyAudio = new Audio(),
     wakeyAudio = new Audio(),
     samplerAudio = new Audio(),
-    alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0},
+    alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0, 'p': 'AM'},
     timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0};
 
 var counter = 1;
@@ -362,8 +362,6 @@ $(document).ready(function() {
       selectGenres.push(e.target.text);
       toggleActive(e.target);
   });
-
-  $('#timepicker1').timepicker();
 
   for (i=1;i<=12;i++) {
     $('#selectHours').append($('<option></option>').val(i).html(i));
