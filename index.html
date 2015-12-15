@@ -4,11 +4,14 @@
   <title>zzzify</title>
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+  <script src="bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="store.min.js"></script>
   <script src="script-backend.js"></script>
   <script src="script.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">  
+  <link type="text/css" href="bootstrap-timepicker/css/bootstrap.min.css" />
+  <link type="text/css" href="bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
   <link rel="stylesheet" type="text/css" href="styles.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <script>
@@ -60,7 +63,7 @@
     <div class="row" id="navbar">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
-        <img src="logo.png" width="100"><br>
+        <img src="logo.png" width="100" style="border-radius:0px;"><br/>
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>
@@ -68,22 +71,39 @@
     <div class="row" id="alarmMusicView">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
-        <br>
-        <span class="clock"></span>
-        <h3>Currently playing</h3>
+        <h2>Currently playing</h2>
         <div class="musicplayer  text-left nowPlaying">
           <div class="albumcover">
             <img src="placeholder.jpg" id="albumCover">
           </div>
           <div class="info">
             <h3 class="title" id="songName">Song name</h3>
-            <i id="albumName">Album</i><br>         
-            <b id="artistName">Artist</b><br>
+            <i id="albumName">Album</i><br/>         
+            <b id="artistName">Artist</b><br/>
           </div>
-        </div><br>
+        </div><br/>
+        The time is now <span class="clock"></span>.
+        <div id="clockdiv">
+          <div>
+            <span class="days"></span>
+            <div class="smalltext">Days</div>
+          </div>
+          <div>
+            <span class="hours"></span>
+            <div class="smalltext">Hours</div>
+          </div>
+          <div>
+            <span class="minutes"></span>
+            <div class="smalltext">Minutes</div>
+          </div>
+          <div>
+            <span class="seconds"></span>
+            <div class="smalltext">Seconds</div>
+          </div>
+        </div>
         <div id="sleepView">
           <p>We will wake you up in <b>2 hours<b></p>
-          <button class="btn btn-lg btn-danger" onclick="cancelAlarm()" id="cancelAlarm">Cancel This Alarm</button>
+          <button class="btn btn-lg btn-danger" onclick="cancelAlarm('main','alarmMusic')" id="cancelAlarm">Cancel This Alarm</button>
           <button class="btn btn-lg btn-default" onclick="alarmGo()">Test Alarm</button>
         </div>
         <div id="alarmView">
@@ -110,61 +130,105 @@
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>
+
+    <div class="row" id="menuView">
+      <div class="col-md-2 col-lg-3"></div>
+      <div class="col-md-8 col-lg-6 text-center"> 
+        <h2>Alarm using your music!</h2>
+        <div style="display:inline; margin-left:auto; margin-right:auto; ">
+          <a onclick="createAlarm()" style="color:#fff; display:inline-block; width:180px; border:1px solid #fff; padding:20px; margin:10px; border-radius:4px;">
+            Create new alarm
+          </a>
+          <a onclick="alert('saved alarms')" style="color:#fff; display:inline-block; width:180px; padding:20px; margin:10px; border:1px solid #fff; border-radius:4px;">
+            My saved alarms
+          </a>
+        </div>
+        <hr/>
+        <h2>What is zzzify?</h2>
+        <div class="text-left">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec odio ut ligula consequat vestibulum. In at odio finibus ligula efficitur dictum. Ut ac viverra dolor. Praesent libero massa, sagittis et semper ornare, ultrices id tellus. Nam sit amet neque scelerisque, elementum sapien at, interdum urna. Mauris ornare ante non tellus placerat luctus.
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-3"></div>      
+    </div>
+
     <div class="row" id="mainView">
       <div class="col-md-2 col-lg-3"></div>
-      <div class="col-md-8 col-lg-6 text-center">
-        <h2>Wake me up at: </h2>
-        <form class="form-inline">
-          <div class="form-group">
-            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe"> :
-            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
-          </div>
-        </form>
-        <br><br>
-        <h3>With music from these genres:</h3>
-        <div id="genreList">
-          <div class="row">
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Pop</a>
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Rock</a>
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Indie</a>
-            </div>
-          </div>
-          <br/>
-          <div class="row">
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Electronic</a>
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Country</a>
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Folk</a>
-            </div>
-          </div><br/>
-          <div class="row">
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Jazz</a>
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Metal</a>
-            </div>
-            <div class="col-md-4 col-xs-4">
-              <a class="list-group-item">Blues</a>
-            </div>
-          </div>
+      <div class="col-md-8 col-lg-6 text-center"> 
+        <h2><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Create New Alarm</h2>
+        <div id="page1">
+          <div class="panel">
+            Wake me up at this time:<br/>
+            <select class="form-control input-lg" id="selectHours" style="display:inline-block; width:90px;">            
+            </select> :
+            <select class="form-control input-lg" id="selectMin" style="display:inline-block; width:90px;">            
+            </select> &nbsp;
+            <select class="form-control input-lg" id="selectMin" style="display:inline-block; width:90px;">
+              <option>AM</option>
+              <option>PM</option>            
+            </select>
+            <br/><br/>
+
+            Fall into a deep slumber with
+            <select class="form-control input-lg" style="display:inline-block; width:150px;">
+              <option>10 min</option><option>20 min</option><option>30 min</option><option>40 min</option>            
+            </select>
+            of ambient music
+            <br/><br/>
+
+            Set snooze time:<br/>
+            <select class="form-control input-lg" style="display:inline-block; width:150px;" id="snoozeDrop">            
+            </select>
+          </div>          
+          <button class="navButton" onclick="cancelAlarm('menu','main')" id="cancelAlarm">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            Home
+          </button>
+          <button class="navButton" id="nextPage" onclick="next()">
+            Next
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          </button>
         </div>
-        <br/>
-        <p>Save this alarm playlist? <input type="checkbox"></p>
-        <button class="btn btn-lg btn-primary" onclick="sleepNow()" id="sleepNow">Sleep now</button>
+
+        <div id="page2">
+          <div class="panel">
+            Specify what music to wake up to?<br/>
+            <button class="btn btn-lg btn-default" onclick="showGenres(true)" id="specifyYes">Yes, I want specific music</button>
+            <button class="btn btn-lg btn-default" onclick="showGenres(false)" id="specifyNo">No, play me whatever</button>
+            <div id="genreList">
+              <br/>
+              <!-- <h3>With music from these genres:</h3>           -->
+              <div class="row">
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Pop</a></div>
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Rock</a></div>
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Indie</a></div>
+              </div><br/>
+              <div class="row">
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Electronic</a></div>
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Country</a></div>
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Folk</a></div>
+              </div><br/>
+              <div class="row">
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Jazz</a></div>
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Metal</a></div>
+                <div class="col-md-4 col-xs-4"><a class="list-group-item">Blues</a></div>
+              </div>
+            </div>
+            <br/><br/>
+            <p>Save this alarm playlist? <input type="checkbox"></p>            
+          </div>                    
+          <button class="navButton" id="nextPage" onclick="back()">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>          
+            Back
+          </button>
+          <button class="navButton" onclick="sleepNow()" id="sleepNow">
+            Sleep
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          </button>          
+        </div>
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>
-
   </div>
 </body>
 </html>

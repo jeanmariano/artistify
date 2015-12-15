@@ -1,17 +1,22 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,300,700,900);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900,900italic);
 
+html {}
 body {
-  font-size: 14pt;
+  font-size: 15pt;
+  letter-spacing: 1pt;
+  font-weight: 300;
   color:#fff;
-  font-family: 'Montserrat','Helvetica Neue','Helvetica', sans-serif;
-  background: rgba(47,72,112,1);
-  background: -moz-radial-gradient(center, ellipse cover, rgba(47,72,112,1) 0%, rgba(36,58,92,1) 41%, rgba(23,39,64,1) 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(47,72,112,1)), color-stop(41%, rgba(36,58,92,1)), color-stop(100%, rgba(23,39,64,1)));
-  background: -webkit-radial-gradient(center, ellipse cover, rgba(47,72,112,1) 0%, rgba(36,58,92,1) 41%, rgba(23,39,64,1) 100%);
-  background: -o-radial-gradient(center, ellipse cover, rgba(47,72,112,1) 0%, rgba(36,58,92,1) 41%, rgba(23,39,64,1) 100%);
-  background: -ms-radial-gradient(center, ellipse cover, rgba(47,72,112,1) 0%, rgba(36,58,92,1) 41%, rgba(23,39,64,1) 100%);
-  background: radial-gradient(ellipse at center, rgba(47,72,112,1) 0%, rgba(36,58,92,1) 41%, rgba(23,39,64,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2f4870', endColorstr='#172740', GradientType=1 );
+  font-family: 'Lato','Montserrat','Helvetica Neue','Helvetica', sans-serif;
+  background: rgba(25,47,82,1);
+  
+  /*background: -moz-linear-gradient(top, rgba(25,47,82,1) 0%, rgba(24,43,73,1) 41%, rgba(20,35,57,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(25,47,82,1)), color-stop(41%, rgba(24,43,73,1)), color-stop(100%, rgba(20,35,57,1)));
+  background: -webkit-linear-gradient(top, rgba(25,47,82,1) 0%, rgba(24,43,73,1) 41%, rgba(20,35,57,1) 100%);
+  background: -o-linear-gradient(top, rgba(25,47,82,1) 0%, rgba(24,43,73,1) 41%, rgba(20,35,57,1) 100%);
+  background: -ms-linear-gradient(top, rgba(25,47,82,1) 0%, rgba(24,43,73,1) 41%, rgba(20,35,57,1) 100%);
+  background: linear-gradient(to bottom, rgba(25,47,82,1) 0%, rgba(24,43,73,1) 41%, rgba(20,35,57,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#192f52', endColorstr='#142339', GradientType=0 );*/
 }
 div, .panel, .panel-body {
   background-color: transparent;
@@ -35,7 +40,7 @@ a {
 img {
   border-radius: 100%;
 }
-.clock {
+.countdown {
   font-weight: 300;
   font-size:130px;
   font-family: avenir;
@@ -43,8 +48,17 @@ img {
   display: block;
   padding-bottom: 30px;
 }
-#mainView, #alarmMusicView, #playlistView {
-  background-color: rgba(0,0,0,0.1);
+.clock {
+  font-weight: 300;  
+}
+.panel {
+  /*border:1px solid #fff;*/
+  padding: 30px;
+  border-radius: 15px;
+  background: rgba(25,47,82,1);
+}
+#mainView, #alarmMusicView, #menuView, #playlistView {
+  background-color: rgba(0,0,0,0.2);
   padding-top: 30px;
   padding-bottom: 30px;
 }
@@ -61,48 +75,27 @@ img {
   border-radius: 4px;
   padding:20px;
 }
+.navButton {
+  border: 2px solid rgba(255,255,255,.9);
+  background-color: transparent;
+  color: #fff;
+  padding:8px;
+  width:150px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-size: 11pt;
+  letter-spacing: 2pt;
+}
+.navButton .glyphicon {
+  font-size:10pt;
+}
+.navButton:hover {
+  background-color: #fff;
+  color:rgba(25,47,82,1);  
+}
+
 #playlist {
   color:#000;
-}
-#viewProfile #viewUserImg, #viewprofile .mainuserimg{
-  width:100%;
-  border-radius: 100%;
-  margin-right:8px;
-}
-#viewProfile .viewUsername {
-  font-weight: 400;
-}
-.mediacaption {
-  text-align: left;
-}
-.editGroupUserImg {
-  height:50px;
-  border-radius: 100%;
-  margin-right:10px;
-}
-.rightalign {
-  text-align: right;
-}
-#contentrow {
-  width:100%;
-  display: table;
-  padding-bottom: 20px
-}
-#searchtypecont {
-  display: table-cell;
-}
-#searchtype {
-  width:96%;
-}
-#searchbar {
-  padding-left: 30px;  
-  width:98%;
-}
-#searchbarcont {
-  display: table-cell;
-}
-#searchbutton { 
-  width:100%;
 }
 #logo {
   font-size: 30pt;
