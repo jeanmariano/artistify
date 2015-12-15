@@ -74,7 +74,7 @@
         <div class="panel">
           <b>Alarm time:</b> <span id="alarmTime"></span><br/><br/>
           <div id="countdown">
-            <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span>
+            <span id="countdownHours" class="hours"></span>:<span id="countdownMinutes" class="minutes"></span>:<span class="seconds"></span>
           </div>
           The time is now <span id="clock"></span><br/><br/>
           <div class="musicplayer  text-left nowPlaying">
@@ -89,6 +89,10 @@
           </div><br/>
           <div id="sleepView">
             <button class="btn btn-lg btn-danger" onclick="cancelAlarm('main','alarmMusic')" id="cancelAlarm">Cancel This Alarm</button>
+            <!-- Button trigger modal -->
+            <button id="editButton" onclick="setEditModal()" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+              Edit Alarm
+            </button>
             <button class="btn btn-lg btn-default" onclick="alarmGo()">Test Alarm</button>
           </div>
           <div id="alarmView">
@@ -103,6 +107,49 @@
         </div>
       </div>
       <div class="col-md-2 col-lg-3"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            <div id="editModal">
+              <div class="panel">
+                Wake me up at this time:<br/>
+                <select class="form-control input-lg" id="editHours" style="display:inline-block; width:90px;">
+                </select> :
+                <select class="form-control input-lg" id="editMin" style="display:inline-block; width:90px;">
+                </select> &nbsp;
+                <select class="form-control input-lg" id="editPeriod" style="display:inline-block; width:90px;">
+                  <option>AM</option>
+                  <option>PM</option>
+                </select>
+                <br/><br/>
+
+                Fall into a deep slumber with
+                <select id="editSleepyTime" class="form-control input-lg" style="display:inline-block; width:150px;">
+                  <option>10 min</option><option>20 min</option><option>30 min</option><option>40 min</option>
+                </select>
+                of ambient music
+                <br/><br/>
+
+                Set snooze time:<br/>
+                <select class="form-control input-lg" style="display:inline-block; width:150px;" id="editSnoozeDrop">
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="saveModalChanges()" data-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="row" id="playlistView">
@@ -156,7 +203,7 @@
             <br/><br/>
 
             Fall into a deep slumber with
-            <select class="form-control input-lg" style="display:inline-block; width:150px;">
+            <select id="sleepyTime" class="form-control input-lg" style="display:inline-block; width:150px;">
               <option>10 min</option><option>20 min</option><option>30 min</option><option>40 min</option>
             </select>
             of ambient music

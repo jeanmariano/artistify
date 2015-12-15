@@ -7,6 +7,7 @@ var selectGenres = [],
     alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0, 'string': '', 'dateObj': undefined},
     timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0}
     snoozeTime = 1;
+    endtime = new Date();
 
 var counter = 1;
 
@@ -61,7 +62,6 @@ function toggleActive(obj) {
 }
 
 function calculateEndTime(time) {
-  var endtime = new Date();  
   var h = time.hour - endtime.getHours();
   var m = time.minute - endtime.getMinutes();
   var s = time.seconds - endtime.getSeconds();
@@ -73,17 +73,18 @@ function calculateEndTime(time) {
   endtime.setHours(endtime.getHours() + h);
   console.log(endtime)
   console.log(Date.parse(endtime) - Date.now())
-  initializeClock('countdown',endtime)
+  $('#alarmTime').text(alarmTime.string);
+  initializeClock('countdown')
 }
 
 function sleepNow() {
-  initializeMainView() 
+  initializeMainView()
   getWakeySongs(queuePlaylist,selectGenres);
-  goToView('alarmMusic','main');  
-  console.log(selectGenres);    
+  goToView('alarmMusic','main');
+  console.log(selectGenres);
   playSleepyMusic();
   startTime()
-  checkTime()  
+  checkTime()
   alarmTime.dateObj = calculateEndTime(alarmTime);
   $('#alarmTime').text(alarmTime.string);
 }
@@ -92,14 +93,14 @@ function wakeUp() {
   sleepyAudio.pause() // should be redundant in final
   wakeyAudio.pause();
   goToView('playlist','alarmMusic');
-  initializeAlarmView();  
+  initializeAlarmView();
 }
 
 function save() {
   saveAlarm(alarmTime.string,selectGenres);
 }
 
-function alarmGo() {  
+function alarmGo() {
   // playWakeyMusic();
   goToView('alarm','sleep');
 }
@@ -118,10 +119,10 @@ function cancelAlarm(to,from) {
   initializeGenres();
   sleepyAudio.pause();
   wakeyAudio.pause();
-  // for testing purposes only-- there won't be a point that will a user will want to cancel during an alarm  
+  // for testing purposes only-- there won't be a point that will a user will want to cancel during an alarm
   sleepyQueue = [];
   wakeyQueue = [];
-  getSleepySongs(queueSleepylist);  
+  getSleepySongs(queueSleepylist);
   sleepyAudio.volume = 1;
   wakeyAudio.volume = 0.1;
   counter =1;
@@ -197,10 +198,10 @@ function renderPlaylistEntry(albumCover, song, artist, artistId, albumName, prev
   return html;
 }
 
-function playSleepyMusic() {    
+function playSleepyMusic() {
   sleepyAudio = new Audio('point1sec.mp3'); // buffer track
   sleepyAudio.play();
-  sleepyAudio.addEventListener('ended',function(){      
+  sleepyAudio.addEventListener('ended',function(){
     // if (sleepyQueue.length > 0) {
     if (counter < 2) { // test
       sleepyAudio.src = sleepyQueue[0].preview_url;
@@ -210,7 +211,7 @@ function playSleepyMusic() {
       $('#albumCover').attr('src',sleepyQueue[0].album_image);
       $('#albumName').text(sleepyQueue[0].album_name)
       $('#artistName').text(sleepyQueue[0].artist_name)
-      $('#songName').text(sleepyQueue[0].track_name);        
+      $('#songName').text(sleepyQueue[0].track_name);
       sleepyQueue.splice(0,1);
       counter++;
       if (sleepyAudio.volume - 0.5 >= 0)
@@ -230,7 +231,7 @@ function playWakeyMusic() {
   sleepyAudio.pause();
   wakeyAudio = new Audio('point1sec.mp3');
   wakeyAudio.play();
-  wakeyAudio.addEventListener('ended',function(){ 
+  wakeyAudio.addEventListener('ended',function(){
     if (wakeyQueue.length > 0) {
       wakeyAudio.src = wakeyQueue[0].preview_url;
       wakeyAudio.pause();
@@ -251,8 +252,8 @@ function playWakeyMusic() {
 }
 
 function listenForPlays() {
-  $('.play').click(function() {    
-    src = $($(this).children('audio')[0]).children('source').attr('src');    
+  $('.play').click(function() {
+    src = $($(this).children('audio')[0]).children('source').attr('src');
     if (samplerAudio.src === src) {
       console.log('playing')
       samplerAudio.pause();
@@ -300,7 +301,7 @@ function initializeGenres() {
   $('#specifyNo').addClass('btn-primary');
   $('#specifyYes').removeClass('btn-primary');
   $('#genreList .list-group-item').removeClass('active');
-  selectGenres = [];  
+  selectGenres = [];
 }
 
 function next() {
@@ -362,7 +363,7 @@ function getTimeRemaining(endtime) {
   };
 }
 
-function initializeClock(id, endtime) {
+function initializeClock(id) {
   var clock = document.getElementById(id);
   var hoursSpan = clock.querySelector('.hours');
   var minutesSpan = clock.querySelector('.minutes');
@@ -371,7 +372,7 @@ function initializeClock(id, endtime) {
   function updateClock() {
     var t = getTimeRemaining(endtime);
 
-    if (t.total > 0) {      
+    if (t.total > 0) {
       hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
       minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
       secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
@@ -391,14 +392,14 @@ function initializeClock(id, endtime) {
 
 getSleepySongs(queueSleepylist);
 
-$(document).ready(function() {    
-  $('#alarmMusicView').css('display','none');    
+$(document).ready(function() {
+  $('#alarmMusicView').css('display','none');
   $('#playlistView').css('display','none');
   initializeAlarmView();
   initializeMainView();
   initializeGenres();
   $('#mainView').css('display','none');
-  
+
   $('#genreList').on('click','.list-group-item',function(e) {
     selectGenres.push(e.target.text);
     toggleActive(e.target);
@@ -410,6 +411,8 @@ $(document).ready(function() {
       j = '0'+i;
     }
     $('#selectHours').append($('<option></option>').val(j).html(j));
+    $('#editHours').append($('<option></option>').val(j).html(j));
+
   }
   for (i=1;i<=60;i++) {
     var j = i;
@@ -417,8 +420,37 @@ $(document).ready(function() {
       j = '0'+i;
     }
     $('#selectMin').append($('<option></option>').val(j).html(j));
+    $('#editMin').append($('<option></option>').val(j).html(j));
+
   }
   for (i=1;i<=20;i++) {
     $('#snoozeDrop').append($('<option></option>').val(i+' min').html(i+' min'));
+    $('#editSnoozeDrop').append($('<option></option>').val(i+' min').html(i+' min'));
+
   }
 });
+
+function setEditModal() {
+  $("#editHours").get(0).selectedIndex = $('#selectHours option:selected').index();
+  $("#editPeriod").get(0).selectedIndex = $('#selectPeriod option:selected').index();
+  $("#editMin").get(0).selectedIndex = $('#selectMin option:selected').index();
+  $("#editSnoozeDrop").get(0).selectedIndex = $('#snoozeDrop option:selected').index();
+  $("#editSleepyTime").get(0).selectedIndex = $('#sleepyTime option:selected').index();
+}
+
+function saveModalChanges() {
+  setSelectFields();
+  alarmTime.hour = parseInt($('#editHours option:selected').text());
+  alarmTime.minute = parseInt($('#editMin option:selected').text());
+  var p = $('#selectPeriod').val();
+  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
+  alarmTime.dateObj = calculateEndTime(alarmTime);
+}
+
+function setSelectFields() {
+  $("#selectHours").get(0).selectedIndex = $('#editHours option:selected').index();
+  $("#selectPeriod").get(0).selectedIndex = $('#editPeriod option:selected').index();
+  $("#selectMin").get(0).selectedIndex = $('#editMin option:selected').index();
+  $("#snoozeDrop").get(0).selectedIndex = $('#editSnoozeDrop option:selected').index();
+  $("#sleepyTime").get(0).selectedIndex = $('#editSleepyTime option:selected').index();
+}
