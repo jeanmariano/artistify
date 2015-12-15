@@ -40,11 +40,11 @@ a {
 img {
   border-radius: 100%;
 }
-.countdown {
+#countdown {
   font-weight: 300;
-  font-size:130px;
+  font-size:100px;
   font-family: avenir;
-  line-height: 100px;
+  line-height: 60px;
   display: block;
   padding-bottom: 30px;
 }

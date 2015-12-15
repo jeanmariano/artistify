@@ -4,8 +4,9 @@ var selectGenres = [],
     sleepyAudio = new Audio(),
     wakeyAudio = new Audio(),
     samplerAudio = new Audio(),
-    alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0, 'p': 'AM'},
-    timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0};
+    alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0, 'string': ''},
+    timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0}
+    snoozeTime = 1;
 
 var counter = 1;
 
@@ -26,7 +27,7 @@ function startTime() {
   if (h > 12) {
     h = h - 12;
   }
-  $('.clock').text(h + ":" + m + "" + p);
+  $('#clock').text(h + ":" + m + "" + p);
   var t = setTimeout(startTime, 500);
 }
 
@@ -59,6 +60,26 @@ function toggleActive(obj) {
     $(obj).addClass('active');
 }
 
+function calculateEndTime(time) {
+  var endtime = new Date();  
+  var h = time.hour - endtime.getHours();
+  var m = time.minute - endtime.getMinutes();
+  var s = time.seconds - endtime.getSeconds();
+  if (h < 0) {
+    h = h + 24;
+  }
+  endtime.setSeconds(endtime.getSeconds() + s);
+  endtime.setMinutes(endtime.getMinutes() + m);
+  endtime.setHours(endtime.getHours() + h);
+  console.log(endtime)
+  console.log(Date.parse(endtime) - Date.now())
+  initializeClock('countdown',endtime)
+  // var clock = document.getElementById('countdown'),
+  //     targetDate = endtime;
+ 
+  // clock.innerHTML = countdown(targetDate).toString();
+}
+
 function sleepNow() {
   initializeMainView() 
   getWakeySongs(queuePlaylist,selectGenres);
@@ -67,11 +88,9 @@ function sleepNow() {
   console.log(selectGenres);    
   playSleepyMusic();
   startTime()
-  checkTime()
-    // get current time
-    // timeLeft = alarmTime - timeOut
-  var deadline = new Date(Date.now() + 24 * 60 * 60 * 1000);
-  initializeClock('clockdiv', deadline); 
+  checkTime()  
+  calculateEndTime(alarmTime);
+  $('#alarmTime').text(alarmTime.string);
 }
 
 function wakeUp() {
@@ -285,8 +304,22 @@ function initializeGenres() {
 function next() {
   toggleDisplay('page1');
   toggleDisplay('page2');
-  alarmTime.hour = $('#selectHours').val();
-  alarmTime.minute = $('#selectMin').val();
+
+  var p = $('#selectPeriod').val(),
+      h = parseInt($('#selectHours').val(),10),
+      m = parseInt($('#selectMin').val());
+
+  if (p === 'PM' && h < 12) { // 1PM - 11PM
+    h = h +12;
+  }
+  else if (p === 'AM' && h === 12) {
+    h = 0;
+  }
+  alarmTime.hour = h;
+  alarmTime.minute = m;
+  // var today = new Date();
+  // alarmTime.seconds = today.getSeconds();
+  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
   console.log(alarmTime);
 }
 
@@ -335,12 +368,15 @@ function initializeClock(id, endtime) {
 
   function updateClock() {
     var t = getTimeRemaining(endtime);
-    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
-    if (t.total <= 0) {
+    if (t.total > 0) {      
+      hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+      minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+      secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+    }
+    else {
       clearInterval(timeinterval);
+      alarmGo();
     }
   }
   updateClock();
@@ -359,12 +395,16 @@ $(document).ready(function() {
   $('#mainView').css('display','none');
   
   $('#genreList').on('click','.list-group-item',function(e) {
-      selectGenres.push(e.target.text);
-      toggleActive(e.target);
+    selectGenres.push(e.target.text);
+    toggleActive(e.target);
   });
 
   for (i=1;i<=12;i++) {
-    $('#selectHours').append($('<option></option>').val(i).html(i));
+    var j = i;
+    if (i < 10) {
+      j = '0'+i;
+    }
+    $('#selectHours').append($('<option></option>').val(j).html(j));
   }
   for (i=1;i<=60;i++) {
     var j = i;

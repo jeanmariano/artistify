@@ -7,7 +7,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>  
   <script src="store.min.js"></script>
   <script src="script-backend.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js"></script>  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">  
   <link type="text/css" href="bootstrap-timepicker/css/bootstrap.min.css" />
   <link type="text/css" href="bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
@@ -70,49 +70,35 @@
     <div class="row" id="alarmMusicView">
       <div class="col-md-2 col-lg-3"></div>
       <div class="col-md-8 col-lg-6 text-center">
-        <h2>Currently playing</h2>
-        <div class="musicplayer  text-left nowPlaying">
-          <div class="albumcover">
-            <img src="placeholder.jpg" id="albumCover">
+        <div class="panel">
+          <b>Alarm time:</b> <span id="alarmTime"></span><br/><br/>
+          <div id="countdown">
+            <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span>            
           </div>
-          <div class="info">
-            <h3 class="title" id="songName">Song name</h3>
-            <i id="albumName">Album</i><br/>         
-            <b id="artistName">Artist</b><br/>
+          The time is now <span id="clock"></span><br/><br/> 
+          <div class="musicplayer  text-left nowPlaying">
+            <div class="albumcover">
+              <img src="placeholder.jpg" id="albumCover">
+            </div>
+            <div class="info">
+              <h3 class="title" id="songName">Song name</h3>
+              <i id="albumName">Album</i><br/>         
+              <b id="artistName">Artist</b><br/>
+            </div>
+          </div><br/>
+          <div id="sleepView">
+            <button class="btn btn-lg btn-danger" onclick="cancelAlarm('main','alarmMusic')" id="cancelAlarm">Cancel This Alarm</button>
+            <button class="btn btn-lg btn-default" onclick="alarmGo()">Test Alarm</button>
           </div>
-        </div><br/>
-        The time is now <span class="clock"></span>.
-        <div id="clockdiv">
-          <div>
-            <span class="days"></span>
-            <div class="smalltext">Days</div>
+          <div id="alarmView">
+            <h1>It is time to wake up!</h1>
+            <button class="btn btn-lg btn-default" onclick="snoozeAlarm()">Snooze</button>
+            <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>
           </div>
-          <div>
-            <span class="hours"></span>
-            <div class="smalltext">Hours</div>
+          <div id="snoozeView">
+            <p>Snoozing for <b>5 minutes</b>...</p>
+            <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>          
           </div>
-          <div>
-            <span class="minutes"></span>
-            <div class="smalltext">Minutes</div>
-          </div>
-          <div>
-            <span class="seconds"></span>
-            <div class="smalltext">Seconds</div>
-          </div>
-        </div>
-        <div id="sleepView">
-          <p>We will wake you up in <b>2 hours<b></p>
-          <button class="btn btn-lg btn-danger" onclick="cancelAlarm('main','alarmMusic')" id="cancelAlarm">Cancel This Alarm</button>
-          <button class="btn btn-lg btn-default" onclick="alarmGo()">Test Alarm</button>
-        </div>
-        <div id="alarmView">
-          <h1>It is time to wake up!</h1>
-          <button class="btn btn-lg btn-default" onclick="snoozeAlarm()">Snooze</button>
-          <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>
-        </div>
-        <div id="snoozeView">
-          <p><b>Snoozing for <b>5 minutes</b>...</p>
-          <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>          
         </div>
       </div>
       <div class="col-md-2 col-lg-3"></div>
@@ -124,8 +110,8 @@
         <h1>Here is your playlist</h1>
         <ul class="list-group" id="playlist">
         </ul>
-        <button class="btn btn-lg btn-default" onclick="newAlarm()">New alarm</button>
-        <button class="btn btn-lg btn-primary" onclick="alert('whoa')">Save this alarm</button>
+        <button class="navButton" onclick="newAlarm()">New alarm</button>
+        <button class="navButton" onclick="alert('whoa')">Save alarm</button>
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>
@@ -162,7 +148,7 @@
             </select> :
             <select class="form-control input-lg" id="selectMin" style="display:inline-block; width:90px;">            
             </select> &nbsp;
-            <select class="form-control input-lg" id="selectMin" style="display:inline-block; width:90px;">
+            <select class="form-control input-lg" id="selectPeriod" style="display:inline-block; width:90px;">
               <option>AM</option>
               <option>PM</option>            
             </select>
