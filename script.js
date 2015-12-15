@@ -4,7 +4,7 @@ var selectGenres = [],
     sleepyAudio = new Audio(),
     wakeyAudio = new Audio(),
     samplerAudio = new Audio(),
-    alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0, 'string': ''},
+    alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0, 'string': '', 'dateObj': undefined},
     timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0}
     snoozeTime = 1;
 
@@ -74,22 +74,17 @@ function calculateEndTime(time) {
   console.log(endtime)
   console.log(Date.parse(endtime) - Date.now())
   initializeClock('countdown',endtime)
-  // var clock = document.getElementById('countdown'),
-  //     targetDate = endtime;
- 
-  // clock.innerHTML = countdown(targetDate).toString();
 }
 
 function sleepNow() {
   initializeMainView() 
   getWakeySongs(queuePlaylist,selectGenres);
-  goToView('alarmMusic','main');
-  initializeGenres()
+  goToView('alarmMusic','main');  
   console.log(selectGenres);    
   playSleepyMusic();
   startTime()
   checkTime()  
-  calculateEndTime(alarmTime);
+  alarmTime.dateObj = calculateEndTime(alarmTime);
   $('#alarmTime').text(alarmTime.string);
 }
 
@@ -100,8 +95,12 @@ function wakeUp() {
   initializeAlarmView();  
 }
 
-function alarmGo() {
-  wakeyAudio.play();
+function save() {
+  saveAlarm(alarmTime.string,selectGenres);
+}
+
+function alarmGo() {  
+  // playWakeyMusic();
   goToView('alarm','sleep');
 }
 
@@ -116,10 +115,12 @@ function snoozeAlarm() {
 
 function cancelAlarm(to,from) {
   goToView('menu',from);
+  initializeGenres();
   sleepyAudio.pause();
   wakeyAudio.pause();
   // for testing purposes only-- there won't be a point that will a user will want to cancel during an alarm  
   sleepyQueue = [];
+  wakeyQueue = [];
   getSleepySongs(queueSleepylist);  
   sleepyAudio.volume = 1;
   wakeyAudio.volume = 0.1;
@@ -217,15 +218,16 @@ function playSleepyMusic() {
     }
     else { // out of sleepy music
       sleepyAudio.pause();
-      setTimeout(function() {
-        playWakeyMusic()
-      },5000);// time should be fifteen min before alarm
+      // setTimeout(function() {
+      //   playWakeyMusic()
+      // },5000);// time should be fifteen min before alarm
       // alarm - current time - 15min
     }
   });
 }
 
 function playWakeyMusic() {
+  sleepyAudio.pause();
   wakeyAudio = new Audio('point1sec.mp3');
   wakeyAudio.play();
   wakeyAudio.addEventListener('ended',function(){ 
@@ -377,6 +379,9 @@ function initializeClock(id, endtime) {
     else {
       clearInterval(timeinterval);
       alarmGo();
+    }
+    if (t.minutes === 15 && t.seconds === 0) {
+      playWakeyMusic();
     }
   }
   updateClock();
