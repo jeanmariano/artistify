@@ -218,6 +218,7 @@ function createAlarm() {
 
 // new alarm session
 function newAlarm() {
+  initializeMainView();
   goToView('main','playlist');
   // sleepyAudio.pause();
   sleepyQueue = [];
