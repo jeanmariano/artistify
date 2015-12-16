@@ -175,8 +175,8 @@ function snoozeAlarm() {
   setTimeout(function() {
     wakeyAudio.play();
     goToView('alarm','snooze');
-  },5000);
-  // },snoozeTime*60*1000);
+  // },5000); // test values
+  },snoozeTime*60*1000);
 }
 
 // ends alarm mode
@@ -246,7 +246,7 @@ function playSleepyMusic() {
   sleepyAudio = new Audio('point1sec.mp3'); // buffer track
   sleepyAudio.play();
   sleepyAudio.addEventListener('ended',function(){
-    if (sleepyQueue.length > 0) { // uncomment this for test
+    if (sleepyQueue.length > 0) { // uncomment this for final
     // if (counter < 2) { // test
       sleepyAudio.src = sleepyQueue[0].preview_url;
       sleepyAudio.pause();
@@ -350,7 +350,7 @@ function stopAllTracks() {
 
 // renders all the songs in the alarm playlist into the DOM
 function renderPlaylist() {
-  $('#alarmtester').css('display','block');
+  // $('#alarmtester').css('display','block'); // test
   list = wakeyQueue;
   var html = '';
   for (var i=0; i < list.length; i++) {
