@@ -410,6 +410,16 @@ $(document).ready(function() {
     toggleActive(e.target);
   });
 
+  $('#genreListModal').on('click','.list-group-item',function(e) {
+    var index = selectGenres.indexOf(e.target.text);
+    if (index > -1) {
+      selectGenres.splice(index, 1);
+    } else {
+      selectGenres.push(e.target.text);
+    }
+    toggleActive(e.target);
+  });
+
   for (i=1;i<=12;i++) {
     var j = i;
     if (i < 10) {
@@ -436,6 +446,7 @@ $(document).ready(function() {
 });
 
 function setEditModal() {
+  setGenreButtons();
   $("#editHours").get(0).selectedIndex = $('#selectHours option:selected').index();
   $("#editPeriod").get(0).selectedIndex = $('#selectPeriod option:selected').index();
   $("#editMin").get(0).selectedIndex = $('#selectMin option:selected').index();
@@ -451,6 +462,8 @@ function saveModalChanges() {
   snoozeTime = $("#snoozeDrop").val();
   alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
   alarmTime.dateObj = calculateEndTime(alarmTime);
+  getWakeySongs(queuePlaylist,selectGenres);
+
 }
 
 function setSelectFields() {
@@ -459,4 +472,13 @@ function setSelectFields() {
   $("#selectMin").get(0).selectedIndex = $('#editMin option:selected').index();
   $("#snoozeDrop").get(0).selectedIndex = $('#editSnoozeDrop option:selected').index();
   $("#sleepyTime").get(0).selectedIndex = $('#editSleepyTime option:selected').index();
+}
+
+function setGenreButtons() {
+
+  $('a', $('#genreListModal')).each(function () {
+    if (selectGenres.indexOf($(this).text()) > -1) {
+      toggleActive($(this));
+    }
+  });
 }
