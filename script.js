@@ -420,6 +420,7 @@ function displayAlarms() {
   $("#alarmsModalBody").append(html);
 }
 
+// set edit to alarm params
 function setEditModal() {
   setGenreButtons();
   $("#editHours").get(0).selectedIndex = $('#selectHours option:selected').index();
@@ -429,6 +430,7 @@ function setEditModal() {
   $("#editSleepyTime").get(0).selectedIndex = $('#sleepyTime option:selected').index();
 }
 
+// save edits
 function saveModalChanges() {
   setSelectFields();
   // alarmTime.hour = parseInt($('#editHours option:selected').text());
@@ -451,6 +453,7 @@ function saveModalChanges() {
   getWakeySongs(queuePlaylist,selectGenres);
 }
 
+// set select for edit
 function setSelectFields() {
   $("#selectHours").get(0).selectedIndex = $('#editHours option:selected').index();
   $("#selectPeriod").get(0).selectedIndex = $('#editPeriod option:selected').index();
@@ -459,6 +462,7 @@ function setSelectFields() {
   $("#sleepyTime").get(0).selectedIndex = $('#editSleepyTime option:selected').index();
 }
 
+// set genre buttons for edit
 function setGenreButtons() {
   $('a', $('#genreListModal')).each(function () {
     if (selectGenres.indexOf($(this).text()) > -1) {
@@ -467,6 +471,7 @@ function setGenreButtons() {
   });
 }
 
+// save
 function saveAlarmModal() {
   var name = $("#alarm-name").val();
   if (name === "") {
@@ -479,6 +484,7 @@ function saveAlarmModal() {
   displayAlarms();
 }
 
+// load a saved alarm
 function loadSavedAlarm(id) {
   alarm = loadAlarm(id);
   selectGenres = alarm.genres;
@@ -492,6 +498,7 @@ function loadSavedAlarm(id) {
   sleepNow('menu');
 }
 
+// delete a saved alarm
 function deleteSavedAlarm(id) {
   var c = confirm('Do you really want to delete this alarm?');
   if (c === true) {
@@ -565,6 +572,7 @@ function showGenres(bool) {
   }
 }
 
+// dom events and renders
 $(document).ready(function() {
   $('#alarmMusicView').css('display','none');
   $('#playlistView').css('display','none');
