@@ -13,6 +13,7 @@ var selectGenres = [],
 
 var counter = 1;
 
+// time display
 function startTime() {
   var today = new Date();
   var h = today.getHours(),
@@ -30,39 +31,45 @@ function startTime() {
   if (h > 12) {
     h = h - 12;
   }
+  h = checkTime(h);
   $('#clock').text(h + ":" + m + "" + p);
   var t = setTimeout(startTime, 500);
 }
 
+// adds a leading zero
 function checkTime(i) {
   if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
   return i;
 }
 
-function toggleView(id) {
-  toggleDisplay(id+'View');
-}
+// countdown handler
+function initializeClock(id) {
+  var clock = document.getElementById(id);
+  var hoursSpan = clock.querySelector('.hours');
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
 
-function toggleDisplay(id) {
-  if ($('#'+id).css('display') === 'none') {
-    $('#'+id).css('display','block');
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    if (t.total > 0) {
+      hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+      minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+      secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+    }
+    else {
+      clearInterval(timeinterval);
+      alarmGo();
+    }
+    if (t.minutes === 15 && t.seconds === 0) {
+      playWakeyMusic();
+    }
   }
-  else
-    $('#'+id).css('display','none');
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
 }
 
-function goToView(from,to) {
-  toggleView(from);
-  toggleView(to);
-}
-
-function toggleActive(obj) {
-  if ($(obj).hasClass('active'))
-    $(obj).removeClass('active');
-  else
-    $(obj).addClass('active');
-}
-
+// calculates the alarm time as a Date object
 function calculateEndTime(time) {
   var date = new Date();
   var h = time.hour - endtime.getHours();
@@ -81,9 +88,45 @@ function calculateEndTime(time) {
   initializeClock('countdown');
 }
 
+// toggles div views
+function toggleView(id) {
+  toggleDisplay(id+'View');
+}
+
+// toggles element display
+function toggleDisplay(id) {
+  if ($('#'+id).css('display') === 'none') {
+    $('#'+id).css('display','block');
+  }
+  else
+    $('#'+id).css('display','none');
+}
+
+// toggles element to have active class
+function toggleActive(obj) {
+  if ($(obj).hasClass('active'))
+    $(obj).removeClass('active');
+  else
+    $(obj).addClass('active');
+}
+
+// switches from one div view to another
+function goToView(from,to) {
+  toggleView(from);
+  toggleView(to);
+  window.scrollTo(0,0);
+}
+
+// starts sleep mode
 function sleepNow(from) {
   initializeMainView()
-  getWakeySongs(queuePlaylist,selectGenres);
+  console.log(wakeyQueue);
+  if (wakeyQueue.length === 0) {
+    getWakeySongs(queuePlaylist,selectGenres);
+  }
+  else {
+    renderPlaylist();
+  }
   goToView('alarmMusic',from);
   console.log(selectGenres);
   playSleepyMusic();
@@ -93,17 +136,7 @@ function sleepNow(from) {
   $('#alarmTime').text(alarmTime.string);
 }
 
-function wakeUp() {
-  sleepyAudio.pause() // should be redundant in final
-  wakeyAudio.pause();
-  goToView('playlist','alarmMusic');
-  initializeAlarmView();
-}
-
-function save() {
-  saveAlarm(alarmTime.string,selectGenres);
-}
-
+// starts alarm mode
 function alarmGo() {
   playWakeyMusic();
   goToView('alarm','sleep');
@@ -118,75 +151,178 @@ function snoozeAlarm() {
     wakeyAudio.play();
     goToView('alarm','snooze');
   },snoozeTime*60*1000);
-  // },snoozeTo*60*1000);
 }
 
-function cancelAlarm(to,from) {
-  goToView('menu',from);
-  initializeGenres();
-  sleepyAudio.pause();
+// ends alarm mode
+function wakeUp() {
+  sleepyAudio.pause() // should be redundant in final
   wakeyAudio.pause();
-  // for testing purposes only-- there won't be a point that will a user will want to cancel during an alarm
-  sleepyQueue = [];
-  wakeyQueue = [];
-  getSleepySongs(queueSleepylist);
-  sleepyAudio.volume = 1;
-  wakeyAudio.volume = 0.1;
-  counter =1;
+  goToView('playlist','alarmMusic');
+  initializeAlarmView();
 }
 
+// save alarm session
+function save() {
+  saveAlarm(alarmTime.string,selectGenres);
+}
+
+// cancel alarm session
+function cancelAlarm(to,from) {
+  var c = confirm("Do you really want to cancel this alarm?");
+  if (c === true) {
+    goToView('menu',from);
+    initializeGenres();
+    sleepyAudio.pause();
+    wakeyAudio.pause();
+    // for testing purposes only-- there won't be a point that will a user will want to cancel during an alarm
+    sleepyQueue = [];
+    wakeyQueue = [];
+    getSleepySongs(queueSleepylist);
+    sleepyAudio.volume = 1;
+    wakeyAudio.volume = 0.1;
+    counter =1;
+  }
+}
+
+// create alarm view
+function createAlarm() {
+  goToView('main','menu');
+  getSleepySongs(queueSleepylist);
+}
+
+// new alarm session
 function newAlarm() {
   goToView('main','playlist');
   // sleepyAudio.pause();
   sleepyQueue = [];
+  wakeyQueue = [];  
+  wakeyList = [];
+  sleepyAudio.volume = 1;
+  wakeyAudio.volume = 0.1;
+  counter =1;  
+  getSleepySongs(queueSleepylist);
+}
+
+//
+function goHome() {
+  goToView('menu','playlist');
+  // sleepyAudio.pause();
+  sleepyQueue = [];
   wakeyQueue = [];
+  wakeyList = [];
   sleepyAudio.volume = 1;
   wakeyAudio.volume = 0.1;
   counter =1;
 }
 
-function queuePlaylist(list) {
-  renderPlaylist(list);
-  wakeyQueue = list;
-  wakeyList = list;
-  console.log(list.length);
+// plays sleepy music
+function playSleepyMusic() {
+  sleepyAudio = new Audio('point1sec.mp3'); // buffer track
+  sleepyAudio.play();
+  sleepyAudio.addEventListener('ended',function(){
+    // if (sleepyQueue.length > 0) {
+    if (counter < 2) { // test
+      sleepyAudio.src = sleepyQueue[0].preview_url;
+      sleepyAudio.pause();
+      sleepyAudio.load();
+      sleepyAudio.play();
+      $('#albumCover').attr('src',sleepyQueue[0].album_image);
+      $('#albumName').text(sleepyQueue[0].album_name)
+      $('#artistName').text(sleepyQueue[0].artist_name)
+      $('#songName').text(sleepyQueue[0].track_name);
+      sleepyQueue.splice(0,1);
+      counter++;
+      if (sleepyAudio.volume - 0.5 >= 0)
+        sleepyAudio.volume = sleepyAudio.volume - 0.5;
+    }
+    else { // out of sleepy music
+      sleepyAudio.pause();
+      $('#albumCover').attr('src','');
+      $('#albumName').text('');
+      $('#artistName').text('');
+      $('#songName').text('Nothing playing.');
+    }
+  });
 }
 
+// plays wakey music
+function playWakeyMusic() {
+  sleepyAudio.pause();
+  wakeyAudio = new Audio('point1sec.mp3');
+  wakeyAudio.play();
+  wakeyAudio.addEventListener('ended',function(){
+    if (wakeyQueue.length > 0) {
+      wakeyAudio.src = wakeyQueue[0].preview_url;
+      wakeyAudio.pause();
+      wakeyAudio.load();
+      wakeyAudio.play();
+      $('#albumCover').attr('src',wakeyQueue[0].album_image);
+      $('#albumName').text(wakeyQueue[0].album_name)
+      $('#artistName').text(wakeyQueue[0].artist_name)
+      $('#songName').text(wakeyQueue[0].track_name);
+      wakeyQueue.splice(0,1);
+      if (wakeyAudio.volume + 0.025 <= 1)
+        wakeyAudio.volume = wakeyAudio.volume + 0.025;
+    }
+    else {
+      wakeyAudio.pause();
+    }
+  });
+}
+
+// queues alarm music
+function queuePlaylist(list) {
+  wakeyQueue = list;
+  wakeyList = list;
+  renderPlaylist();
+}
+
+// queues sleepy music
 function queueSleepylist(list) {
   sleepyQueue = list;
   sleepyList = list;
+  console.log("sleep"+list);
 }
 
-function renderAlarm(id,name,genres,alarm,snooze) {
-  var genrehtml = '';
-  if (genres.length === 0) {
-    genrehtml = 'all';
-  }
-  for (var i=0; i< genres.length; i++) {
-    genrehtml = genrehtml + genres[i] + ',';
-  }
-  var html = '<a data-dismiss="modal" onclick="loadSavedAlarm('+id+')" class="list-group-item alarmItem">'+
-    '<h3>'+name+'</h3>'+
-    '<b>Alarm Time: </b>'+alarm+'<br>'+
-    '<b>Snooze Time: </b>'+snooze+'<br>'+
-    '<b>Genres: </b>'+genrehtml+'<br>'+
-    '</a>';
-  return html 
+// event listener for playlist mode
+function listenForPlays() {
+  $('.play').click(function() {
+    src = $($(this).children('audio')[0]).children('source').attr('src');
+    if (samplerAudio.src === src) {
+      console.log('playing')
+      samplerAudio.pause();
+      button = $(this).children('span');
+      button.removeClass('glyphicon-pause');
+      button.addClass('glyphicon-play');
+    }
+    else {
+      console.log('else');
+      stopAllTracks();
+      samplerAudio.pause();
+      samplerAudio.src = src;
+      samplerAudio.load();
+      samplerAudio.play();
+      button = $(this).children('span');
+      button.removeClass('glyphicon-play');
+      button.addClass('glyphicon-pause');
+    }
+  })
+  samplerAudio.addEventListener('ended',function() {
+    stopAllTracks();
+  });
 }
 
-function displayAlarms() {
-  $("#alarmsModalBody").empty();
-  alarms = getAlarms();
-  console.log(alarms);
-  var html = '';
-  for (var i=0; i < alarms.length; i++) {
-    var a=alarms[i];
-    html = html + renderAlarm(a.id,a.name,a.genres, a.time,a.snooze_time);
-  }
-  $("#alarmsModalBody").append(html);
+// pauses all tracks
+function stopAllTracks() {
+  $('.play').children('span').each(function() {
+    $(this).removeClass('glyphicon-pause');
+    $(this).addClass('glyphicon-play');
+  });
 }
 
-function renderPlaylist(list) {
+// renders all the songs in the alarm playlist into the DOM
+function renderPlaylist() {
+  list = wakeyQueue;
   var html = '';
   for (var i=0; i < list.length; i++) {
     var cur = list[i];
@@ -204,6 +340,7 @@ function renderPlaylist(list) {
   listenForPlays();
 }
 
+// renders a song in the playlist as an html element
 function renderPlaylistEntry(albumCover, song, artist, artistId, albumName, previewUrl, trackId) {
   var html = '<li class="musicplayer list-group-item text-left">'+
     '<div class="albumcover">'+
@@ -236,104 +373,128 @@ function renderPlaylistEntry(albumCover, song, artist, artistId, albumName, prev
   return html;
 }
 
-function playSleepyMusic() {
-  sleepyAudio = new Audio('point1sec.mp3'); // buffer track
-  sleepyAudio.play();
-  sleepyAudio.addEventListener('ended',function(){
-    // if (sleepyQueue.length > 0) {
-    if (counter < 2) { // test
-      sleepyAudio.src = sleepyQueue[0].preview_url;
-      sleepyAudio.pause();
-      sleepyAudio.load();
-      sleepyAudio.play();
-      $('#albumCover').attr('src',sleepyQueue[0].album_image);
-      $('#albumName').text(sleepyQueue[0].album_name)
-      $('#artistName').text(sleepyQueue[0].artist_name)
-      $('#songName').text(sleepyQueue[0].track_name);
-      sleepyQueue.splice(0,1);
-      counter++;
-      if (sleepyAudio.volume - 0.5 >= 0)
-        sleepyAudio.volume = sleepyAudio.volume - 0.5;
+// renders an alarm object as an html element
+function renderAlarm(id,name,genres,alarm,snooze) {
+  var genrehtml = '';
+  if (genres.length === 0) {
+    genrehtml = 'All  ';
+  }
+  else {
+    for (var i=0; i< genres.length; i++) {
+      genrehtml = genrehtml + genres[i] + ', ';
     }
-    else { // out of sleepy music
-      sleepyAudio.pause();
-      $('#albumCover').attr('src','');
-      $('#albumName').text('');
-      $('#artistName').text('');
-      $('#songName').text('Nothing playing!');
+  }
+  genrehtml = genrehtml.substring(0,genrehtml.length-2);
+  var html = '<a class="list-group-item alarmItem">'+
+    '<div class="pull-right">'+
+    '<button onclick="deleteSavedAlarm('+id+')" class="btn btn-sm btn-danger">Delete</button> '+
+    '<button data-dismiss="modal" onclick="loadSavedAlarm('+id+')" class="btn btn-sm btn-primary">Load Alarm</button>'+
+    '</div>'+
+    '<h3>'+name+'</h3>'+
+    '<b>Alarm Time: </b>'+alarm+'<br>'+
+    '<b>Snooze Time: </b>'+snooze+'<br>'+
+    '<b>Genres: </b>'+genrehtml+'<br>'+
+    '</a>';
+  return html 
+}
+
+// renders all the alarms into the DOM
+function displayAlarms() {
+  $("#alarmsModalBody").empty();
+  alarms = getAlarms();
+  console.log(alarms);
+  var html = '';
+  for (var i=0; i < alarms.length; i++) {
+    var a=alarms[i];
+    html = html + renderAlarm(a.id,a.name,a.genres, a.time,a.snooze_time);
+  }
+  $("#alarmsModalBody").append(html);
+}
+
+function setEditModal() {
+  setGenreButtons();
+  $("#editHours").get(0).selectedIndex = $('#selectHours option:selected').index();
+  $("#editPeriod").get(0).selectedIndex = $('#selectPeriod option:selected').index();
+  $("#editMin").get(0).selectedIndex = $('#selectMin option:selected').index();
+  $("#editSnoozeDrop").get(0).selectedIndex = $('#snoozeDrop option:selected').index();
+  $("#editSleepyTime").get(0).selectedIndex = $('#sleepyTime option:selected').index();
+}
+
+function saveModalChanges() {
+  setSelectFields();
+  alarmTime.hour = parseInt($('#editHours option:selected').text());
+  alarmTime.minute = parseInt($('#editMin option:selected').text());
+  var p = $('#selectPeriod').val();
+  snoozeTime = $("#snoozeDrop").val();
+  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
+  alarmTime.dateObj = calculateEndTime(alarmTime);
+  getWakeySongs(queuePlaylist,selectGenres);
+}
+
+function setSelectFields() {
+  $("#selectHours").get(0).selectedIndex = $('#editHours option:selected').index();
+  $("#selectPeriod").get(0).selectedIndex = $('#editPeriod option:selected').index();
+  $("#selectMin").get(0).selectedIndex = $('#editMin option:selected').index();
+  $("#snoozeDrop").get(0).selectedIndex = $('#editSnoozeDrop option:selected').index();
+  $("#sleepyTime").get(0).selectedIndex = $('#editSleepyTime option:selected').index();
+}
+
+function setGenreButtons() {
+  $('a', $('#genreListModal')).each(function () {
+    if (selectGenres.indexOf($(this).text()) > -1) {
+      $(this).addClass('active');
     }
   });
 }
 
-function playWakeyMusic() {
-  sleepyAudio.pause();
-  wakeyAudio = new Audio('point1sec.mp3');
-  wakeyAudio.play();
-  wakeyAudio.addEventListener('ended',function(){
-    if (wakeyQueue.length > 0) {
-      wakeyAudio.src = wakeyQueue[0].preview_url;
-      wakeyAudio.pause();
-      wakeyAudio.load();
-      wakeyAudio.play();
-      $('#albumCover').attr('src',wakeyQueue[0].album_image);
-      $('#albumName').text(wakeyQueue[0].album_name)
-      $('#artistName').text(wakeyQueue[0].artist_name)
-      $('#songName').text(wakeyQueue[0].track_name);
-      wakeyQueue.splice(0,1);
-      if (wakeyAudio.volume + 0.025 <= 1)
-        wakeyAudio.volume = wakeyAudio.volume + 0.025;
-    }
-    else {
-      wakeyAudio.pause();
-    }
-  });
+function saveAlarmModal() {
+  var name = $("#alarm-name").val();
+  if (name === "") {
+    console.log("noname");
+  } else {
+    saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
+    $("#alarmSaveModal").modal('hide');
+    alert('Alarm saved.');
+  }
+  displayAlarms();
 }
 
-function listenForPlays() {
-  $('.play').click(function() {
-    src = $($(this).children('audio')[0]).children('source').attr('src');
-    if (samplerAudio.src === src) {
-      console.log('playing')
-      samplerAudio.pause();
-      button = $(this).children('span');
-      button.removeClass('glyphicon-pause');
-      button.addClass('glyphicon-play');
-    }
-    else {
-      console.log('else');
-      stopAllTracks();
-      samplerAudio.pause();
-      samplerAudio.src = src;
-      samplerAudio.load();
-      samplerAudio.play();
-      button = $(this).children('span');
-      button.removeClass('glyphicon-play');
-      button.addClass('glyphicon-pause');
-    }
-  })
-  samplerAudio.addEventListener('ended',function() {
-    stopAllTracks();
-  });
+function loadSavedAlarm(id) {
+  alarm = loadAlarm(id);
+  console.log(alarm);
+  selectGenres = alarm.genres;
+  sleepyQueue = alarm.sleepy_music;
+  wakeyQueue = alarm.songs;
+  wakeyList = wakeyQueue;
+  alarmTime.string = alarm.time;
+  alarmTime.hour = parseInt(alarm.time.substring(0,2),10);
+  alarmTime.minute = parseInt(alarm.time.substring(3,5),10);
+  alarmTime.p = alarm.time.substring(5,7);
+  sleepNow('menu');
 }
 
-function stopAllTracks() {
-  $('.play').children('span').each(function() {
-    $(this).removeClass('glyphicon-pause');
-    $(this).addClass('glyphicon-play');
-  });
+function deleteSavedAlarm(id) {
+  var c = confirm('Do you really want to delete this alarm?');
+  if (c === true) {
+    deleteAlarm(id);
+    displayAlarms();
+  }
 }
 
+// initializes view for alarm
 function initializeAlarmView() {
   $('#sleepView').css('display','block');
   $('#alarmView').css('display','none');
   $('#snoozeView').css('display','none');
 }
 
+// initialize create alarm view
 function initializeMainView() {
   $('#page1').css('display','block');
   $('#page2').css('display','none');
 }
 
+// initialize genres
 function initializeGenres() {
   $('#genreList').css('display','none');
   $('#specifyNo').addClass('btn-primary');
@@ -342,6 +503,7 @@ function initializeGenres() {
   selectGenres = [];
 }
 
+// page 1 --> page two of create alarm
 function next() {
   toggleDisplay('page1');
   toggleDisplay('page2');
@@ -361,11 +523,13 @@ function next() {
   alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;  
 }
 
+// page 1 <-- page 2 of create alarm
 function back() {
   toggleDisplay('page1');
   toggleDisplay('page2');
 }
 
+// style handler for genre list
 function showGenres(bool) {
   if (bool) {
     $('#genreList').css('display','block');
@@ -383,10 +547,6 @@ function showGenres(bool) {
   }
 }
 
-function createAlarm() {
-  goToView('main','menu');
-}
-
 // countdown
 function getTimeRemaining(time) {
   var t = Date.parse(time) - Date.now();
@@ -400,35 +560,6 @@ function getTimeRemaining(time) {
     'seconds': seconds
   };
 }
-
-function initializeClock(id) {
-  var clock = document.getElementById(id);
-  var hoursSpan = clock.querySelector('.hours');
-  var minutesSpan = clock.querySelector('.minutes');
-  var secondsSpan = clock.querySelector('.seconds');
-
-  function updateClock() {
-    var t = getTimeRemaining(endtime);
-
-    if (t.total > 0) {
-      hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-      minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-      secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-    }
-    else {
-      clearInterval(timeinterval);
-      alarmGo();
-    }
-    if (t.minutes === 15 && t.seconds === 0) {
-      playWakeyMusic();
-    }
-  }
-  updateClock();
-  var timeinterval = setInterval(updateClock, 1000);
-}
-// end countdown
-
-getSleepySongs(queueSleepylist);
 
 $(document).ready(function() {
   $('#alarmMusicView').css('display','none');
@@ -490,68 +621,13 @@ $(document).ready(function() {
 
   }
   for (i=1;i<=20;i++) {
-    $('#snoozeDrop').append($('<option></option>').val(i+' min').html(i+' min'));
-    $('#editSnoozeDrop').append($('<option></option>').val(i+' min').html(i+' min'));
-
+    if (i !== 5) {
+      $('#snoozeDrop').append($('<option></option>').val(i).html(i+' min'));
+      $('#editSnoozeDrop').append($('<option></option>').val(i).html(i+' min'));
+    }
+    else {
+      $('#snoozeDrop').append($('<option selected="selected"></option>').val(i).html(i+' min'));
+      $('#editSnoozeDrop').append($('<option selected="selected"></option>').val(i).html(i+' min'));
+    }
   }
 });
-
-function setEditModal() {
-  setGenreButtons();
-  $("#editHours").get(0).selectedIndex = $('#selectHours option:selected').index();
-  $("#editPeriod").get(0).selectedIndex = $('#selectPeriod option:selected').index();
-  $("#editMin").get(0).selectedIndex = $('#selectMin option:selected').index();
-  $("#editSnoozeDrop").get(0).selectedIndex = $('#snoozeDrop option:selected').index();
-  $("#editSleepyTime").get(0).selectedIndex = $('#sleepyTime option:selected').index();
-}
-
-function saveModalChanges() {
-  setSelectFields();
-  alarmTime.hour = parseInt($('#editHours option:selected').text());
-  alarmTime.minute = parseInt($('#editMin option:selected').text());
-  var p = $('#selectPeriod').val();
-  snoozeTime = $("#snoozeDrop").val();
-  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
-  alarmTime.dateObj = calculateEndTime(alarmTime);
-  getWakeySongs(queuePlaylist,selectGenres);
-}
-
-function setSelectFields() {
-  $("#selectHours").get(0).selectedIndex = $('#editHours option:selected').index();
-  $("#selectPeriod").get(0).selectedIndex = $('#editPeriod option:selected').index();
-  $("#selectMin").get(0).selectedIndex = $('#editMin option:selected').index();
-  $("#snoozeDrop").get(0).selectedIndex = $('#editSnoozeDrop option:selected').index();
-  $("#sleepyTime").get(0).selectedIndex = $('#editSleepyTime option:selected').index();
-}
-
-function setGenreButtons() {
-  $('a', $('#genreListModal')).each(function () {
-    if (selectGenres.indexOf($(this).text()) > -1) {
-      $(this).addClass('active');
-    }
-  });
-}
-
-function saveAlarmModal() {
-  var name = $("#alarm-name").val();
-  if (name === "") {
-    console.log("noname");
-  } else {
-    saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
-    $("#alarmSaveModal").modal('hide');
-  }
-  displayAlarms();
-}
-
-function loadSavedAlarm(id) {
-  alarm = loadAlarm(id);
-  console.log(alarm);
-  selectGenres = alarm.genres;
-  sleepyQueue = alarm.sleepy_music;
-  wakeyQueue = alarm.songs;
-  alarmTime.string = alarm.time;
-  alarmTime.hour = parseInt(alarm.time.substring(0,2),10);
-  alarmTime.minute = parseInt(alarm.time.substring(3,5),10);
-  alarmTime.p = alarm.time.substring(5,7);
-  sleepNow('menu');
-}
