@@ -175,6 +175,7 @@ function renderAlarm(id,name,genres,alarm,snooze) {
 }
 
 function displayAlarms() {
+  $("#alarmsModalBody").empty();
   alarms = getAlarms();
   console.log(alarms);
   var html = '';
