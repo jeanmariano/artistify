@@ -150,8 +150,15 @@ function sleepNow(from) {
 
 // starts alarm mode
 function alarmGo() {
-  playWakeyMusic();
-  goToView('alarm','sleep');
+  if (wakeyAudio.paused) {
+    playWakeyMusic();
+    goToView('alarm','sleep');    
+  }
+  else {
+    // for testing
+    wakeyAudio.pause();
+    playWakeyMusic();
+  }
 }
 
 function snoozeAlarm() {
@@ -162,7 +169,8 @@ function snoozeAlarm() {
   setTimeout(function() {
     wakeyAudio.play();
     goToView('alarm','snooze');
-  },snoozeTime*60*1000);
+  },5000);
+  // },snoozeTime*60*1000);
 }
 
 // ends alarm mode
@@ -261,6 +269,7 @@ function playSleepyMusic() {
 function playWakeyMusic() {
   sleepyAudio.pause();
   wakeyAudio = new Audio('point1sec.mp3');
+  wakeyAudio.pause();
   wakeyAudio.play();
   wakeyAudio.addEventListener('ended',function(){
     if (wakeyQueue.length > 0) {
