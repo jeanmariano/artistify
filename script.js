@@ -49,7 +49,7 @@ function initializeClock(id) {
   var minutesSpan = clock.querySelector('.minutes');
   var secondsSpan = clock.querySelector('.seconds');
   var ended = false
-  
+
   function updateClock(ended) {
     var t = getTimeRemaining(endtime);
 
@@ -59,13 +59,13 @@ function initializeClock(id) {
       secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
       if (t.minutes === 15 && t.seconds === 0) {
         playWakeyMusic();
-      }            
+      }
     }
     else {
       clearInterval(timeinterval);
       alarmGo();
       ended = true;
-    }    
+    }
   }
   if (!ended) {
     updateClock();
@@ -97,7 +97,7 @@ function calculateEndTime(time) {
 
   if (endtime >= date) {
     date.setHours(date.getHours() + 24);
-  }  
+  }
   endtime = date;
   initializeClock('countdown');
 }
@@ -143,7 +143,7 @@ function sleepNow(from) {
   goToView('alarmMusic',from);
   playSleepyMusic();
   startTime()
-  checkTime()  
+  checkTime()
   alarmTime.dateObj = calculateEndTime(alarmTime);
   $('#alarmTime').text(alarmTime.string);
 }
@@ -207,11 +207,11 @@ function newAlarm() {
   goToView('main','playlist');
   // sleepyAudio.pause();
   sleepyQueue = [];
-  wakeyQueue = [];  
+  wakeyQueue = [];
   wakeyList = [];
   sleepyAudio.volume = 1;
   wakeyAudio.volume = 0.1;
-  counter =1;  
+  counter =1;
   getSleepySongs(queueSleepylist);
 }
 
@@ -405,7 +405,7 @@ function renderAlarm(id,name,genres,alarm,snooze) {
     '<b>Snooze Time: </b>'+snooze+'<br>'+
     '<b>Genres: </b>'+genrehtml+'<br>'+
     '</a>';
-  return html 
+  return html
 }
 
 // renders all the alarms into the DOM
@@ -420,6 +420,7 @@ function displayAlarms() {
   $("#alarmsModalBody").append(html);
 }
 
+// when opening edit modal , set values of form
 // set edit to alarm params
 function setEditModal() {
   setGenreButtons();
@@ -430,6 +431,7 @@ function setEditModal() {
   $("#editSleepyTime").get(0).selectedIndex = $('#sleepyTime option:selected').index();
 }
 
+// when pressing save in modal, change appropriate fields
 // save edits
 function saveModalChanges() {
   setSelectFields();
@@ -453,6 +455,7 @@ function saveModalChanges() {
   getWakeySongs(queuePlaylist,selectGenres);
 }
 
+// save appropriate fields (used in save modal changes)
 // set select for edit
 function setSelectFields() {
   $("#selectHours").get(0).selectedIndex = $('#editHours option:selected').index();
@@ -462,7 +465,7 @@ function setSelectFields() {
   $("#sleepyTime").get(0).selectedIndex = $('#editSleepyTime option:selected').index();
 }
 
-// set genre buttons for edit
+// sets genre buttons of edit modal form
 function setGenreButtons() {
   $('a', $('#genreListModal')).each(function () {
     if (selectGenres.indexOf($(this).text()) > -1) {
@@ -470,8 +473,7 @@ function setGenreButtons() {
     }
   });
 }
-
-// save
+// runs on save of save alarm modal, does not dismiss modal if there is no name input
 function saveAlarmModal() {
   var name = $("#alarm-name").val();
   if (name === "") {
@@ -484,7 +486,7 @@ function saveAlarmModal() {
   displayAlarms();
 }
 
-// load a saved alarm
+// returns object of an alarm with a certain id
 function loadSavedAlarm(id) {
   alarm = loadAlarm(id);
   selectGenres = alarm.genres;
@@ -545,7 +547,7 @@ function next() {
   snoozeTime = parseInt($('#snoozeDrop').val(),10);
   alarmTime.hour = h;
   alarmTime.minute = m;
-  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;  
+  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
 }
 
 // page 1 <-- page 2 of create alarm
