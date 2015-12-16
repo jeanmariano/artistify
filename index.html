@@ -124,6 +124,26 @@
       </div>
     </div>
 
+
+
+    <div class="modal fade" id="alarmSaveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Alarms</h4>
+          </div>
+          <div id="alarmSaveModalBody" class="modal-body">
+            <input type="text" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="saveAlarm()" data-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal DONT ACCIDENTALLY EDIT THIS - CODE IS SIMILAR TO OTHER FORMS-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -197,7 +217,7 @@
         <ul class="list-group" id="playlist">
         </ul>
         <button class="navButton" onclick="newAlarm()">New alarm</button>
-        <button class="navButton" onclick="save()">Save alarm</button>
+        <button class="navButton" data-toggle="modal" data-target="#alarmSaveModal" >Save alarm</button>
       </div>
       <div class="col-md-2 col-lg-3"></div>
     </div>
