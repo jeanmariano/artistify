@@ -50,7 +50,7 @@ function initializeClock(id) {
   var secondsSpan = clock.querySelector('.seconds');
   var ended = false
 
-  function updateClock(ended) {
+  function updateClock() {
     var t = getTimeRemaining(endtime);
 
     if (t.total > 0) {
