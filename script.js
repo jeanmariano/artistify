@@ -72,7 +72,6 @@ function initializeClock(id) {
 // calculates the alarm time as a Date object
 function calculateEndTime(time) {
   var date = new Date();
-  console.log(date)
 
   date.setHours(time.hour);
   date.setMinutes(time.minute);
@@ -81,7 +80,6 @@ function calculateEndTime(time) {
   if (endtime >= date) {
     date.setHours(date.getHours() + 24);
   }  
-  // console.log(date)
   endtime = date;
   initializeClock('countdown');
 }
@@ -118,7 +116,6 @@ function goToView(from,to) {
 // starts sleep mode
 function sleepNow(from) {
   initializeMainView()
-  console.log(wakeyQueue);
   if (wakeyQueue.length === 0) {
     getWakeySongs(queuePlaylist,selectGenres);
   }
@@ -126,7 +123,6 @@ function sleepNow(from) {
     renderPlaylist();
   }
   goToView('alarmMusic',from);
-  console.log(selectGenres);
   playSleepyMusic();
   startTime()
   checkTime()  
@@ -218,8 +214,8 @@ function playSleepyMusic() {
   sleepyAudio = new Audio('point1sec.mp3'); // buffer track
   sleepyAudio.play();
   sleepyAudio.addEventListener('ended',function(){
-    // if (sleepyQueue.length > 0) {
-    if (counter < 2) { // test
+    if (sleepyQueue.length > 0) { // uncomment this for test
+    // if (counter < 2) { // test
       sleepyAudio.src = sleepyQueue[0].preview_url;
       sleepyAudio.pause();
       sleepyAudio.load();
@@ -230,8 +226,8 @@ function playSleepyMusic() {
       $('#songName').text(sleepyQueue[0].track_name);
       sleepyQueue.splice(0,1);
       counter++;
-      if (sleepyAudio.volume - 0.5 >= 0)
-        sleepyAudio.volume = sleepyAudio.volume - 0.5;
+      if (sleepyAudio.volume - 0.05 >= 0)
+        sleepyAudio.volume = sleepyAudio.volume - 0.05;
     }
     else { // out of sleepy music
       sleepyAudio.pause();
@@ -279,7 +275,6 @@ function queuePlaylist(list) {
 function queueSleepylist(list) {
   sleepyQueue = list;
   sleepyList = list;
-  console.log("sleep"+list);
 }
 
 // event listener for playlist mode
@@ -287,14 +282,12 @@ function listenForPlays() {
   $('.play').click(function() {
     src = $($(this).children('audio')[0]).children('source').attr('src');
     if (samplerAudio.src === src) {
-      console.log('playing')
       samplerAudio.pause();
       button = $(this).children('span');
       button.removeClass('glyphicon-pause');
       button.addClass('glyphicon-play');
     }
     else {
-      console.log('else');
       stopAllTracks();
       samplerAudio.pause();
       samplerAudio.src = src;
@@ -401,7 +394,6 @@ function renderAlarm(id,name,genres,alarm,snooze) {
 function displayAlarms() {
   $("#alarmsModalBody").empty();
   alarms = getAlarms();
-  console.log(alarms);
   var html = '';
   for (var i=0; i < alarms.length; i++) {
     var a=alarms[i];
@@ -471,7 +463,6 @@ function saveAlarmModal() {
 
 function loadSavedAlarm(id) {
   alarm = loadAlarm(id);
-  console.log(alarm);
   selectGenres = alarm.genres;
   sleepyQueue = alarm.sleepy_music;
   wakeyQueue = alarm.songs;
