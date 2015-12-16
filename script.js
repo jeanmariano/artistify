@@ -493,6 +493,6 @@ function setGenreButtons() {
 }
 
 function saveAlarmModal() {
-  var name = $("#input:textbox").val();
+  var name = $("#alarm-name").val();
   saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
 }

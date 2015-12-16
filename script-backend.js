@@ -32,6 +32,11 @@
     });
   }
 
+  // gets one alarm
+  function loadAlarm(id) {
+    return store.get(id);
+  }
+
   // gets list of existing alarms
   function getAlarms() {
     var alarms = [];
