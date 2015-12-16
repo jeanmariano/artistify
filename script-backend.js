@@ -49,7 +49,8 @@
   // sends a list of previews to the callback
   function getPreviewsFromSpotifyIds(ids, callback) {
     // console.log(ids);
-    var url = BASE_SPOTIFY_URL + ids.join(",");
+    console.log(ids.length);
+    var url = BASE_SPOTIFY_URL + ids.slice(0, 50).join(",");
     if (endsWith(url, ",")) {
       url = url.slice(0, -1);
     }
