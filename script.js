@@ -339,7 +339,10 @@ function showGenres(bool) {
   }
   else {
     $('#genreList').css('display','none');
-    genreList = [];
+    selectGenres = [];
+    $('a', $('#genreList')).each(function () {
+      $(this).removeClass('active');
+    });
     $('#specifyNo').addClass('btn-primary');
     $('#specifyYes').removeClass('btn-primary');
   }
