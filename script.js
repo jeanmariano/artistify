@@ -22,7 +22,7 @@ function startTime() {
       p = '';
   m = checkTime(m);
   s = checkTime(s);
-  if (h <= 12) {
+  if (h < 12) {
     p = 'AM';
   }
   else {
