@@ -5,9 +5,9 @@ var selectGenres = [],
     wakeyAudio = new Audio(),
     samplerAudio = new Audio(),
     alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0, 'string': '', 'dateObj': undefined},
-    timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0}
-    snoozeTime = 1;
-    // endtime = new Date();
+    timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0},
+    snoozeTime = 1,
+    endtime = new Date(),
     sleepyList = [];
     wakeyList = [];
 
@@ -64,7 +64,6 @@ function toggleActive(obj) {
 }
 
 function calculateEndTime(time) {
-  var endtime = new Date();
   var h = time.hour - endtime.getHours();
   var m = time.minute - endtime.getMinutes();
   var s = time.seconds - endtime.getSeconds();
@@ -74,10 +73,8 @@ function calculateEndTime(time) {
   endtime.setSeconds(endtime.getSeconds() + s);
   endtime.setMinutes(endtime.getMinutes() + m);
   endtime.setHours(endtime.getHours() + h);
-  console.log(endtime)
-  console.log(Date.parse(endtime) - Date.now())
-  $('#alarmTime').text(alarmTime.string);
-  initializeClock('countdown',endtime)
+  console.log(endtime);
+  initializeClock('countdown');
 }
 
 function sleepNow() {
@@ -125,12 +122,13 @@ function alarmGo() {
 function snoozeAlarm() {
   goToView('snooze','alarm');
   wakeyAudio.pause();
-  var snoozeTo = new Date(Date.now()+snoozeTime*60*1000);
-  initializeClock('snoozeClock',snoozeTo);
+  // var snoozeTo = new Date(Date.now()+snoozeTime*60*1000);
+  $('#snoozeTime').text(snoozeTime);
   setTimeout(function() {
     wakeyAudio.play();
     goToView('alarm','snooze');
-  },snoozeTo*60*1000);
+  },snoozeTime*60*1000);
+  // },snoozeTo*60*1000);
 }
 
 function cancelAlarm(to,from) {
@@ -385,8 +383,8 @@ function createAlarm() {
 }
 
 // countdown
-function getTimeRemaining(endtime) {
-  var t = Date.parse(endtime) - Date.now();
+function getTimeRemaining(time) {
+  var t = Date.parse(time) - Date.now();
   var seconds = Math.floor((t / 1000) % 60);
   var minutes = Math.floor((t / 1000 / 60) % 60);
   var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
@@ -398,7 +396,7 @@ function getTimeRemaining(endtime) {
   };
 }
 
-function initializeClock(id,endtime) {
+function initializeClock(id) {
   var clock = document.getElementById(id);
   var hoursSpan = clock.querySelector('.hours');
   var minutesSpan = clock.querySelector('.minutes');
@@ -457,6 +455,17 @@ $(document).ready(function() {
 
   displayAlarms();
 
+  var p = $('#selectPeriod').val(),
+      h = parseInt($('#selectHours').val(),10),
+      m = parseInt($('#selectMin').val());
+
+  if (p === 'PM' && h < 12) { // 1PM - 11PM
+    h = h +12;
+  }
+  else if (p === 'AM' && h === 12) {
+    h = 0;
+  }
+
   for (i=1;i<=12;i++) {
     var j = i;
     if (i < 10) {
@@ -500,7 +509,6 @@ function saveModalChanges() {
   alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
   alarmTime.dateObj = calculateEndTime(alarmTime);
   getWakeySongs(queuePlaylist,selectGenres);
-
 }
 
 function setSelectFields() {
@@ -520,7 +528,6 @@ function setGenreButtons() {
 }
 
 function saveAlarmModal() {
-<<<<<<< Updated upstream
   var name = $("#alarm-name").val();
   if (name === "") {
     console.log("noname");
@@ -528,10 +535,5 @@ function saveAlarmModal() {
     saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
     $("#alarmSaveModal").modal('hide');
   }
-}
-=======
-  var name = $("#input:textbox").val();
-  saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
   displayAlarms();
 }
->>>>>>> Stashed changes
