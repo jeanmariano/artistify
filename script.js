@@ -56,17 +56,31 @@ function initializeClock(id) {
       hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
       minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
       secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+      if (t.minutes === 15 && t.seconds === 0) {
+        playWakeyMusic();
+      }
+      updateClock();      
     }
     else {
       clearInterval(timeinterval);
       alarmGo();
-    }
-    if (t.minutes === 15 && t.seconds === 0) {
-      playWakeyMusic();
-    }
+    }    
   }
-  updateClock();
   var timeinterval = setInterval(updateClock, 1000);
+}
+
+// countdown
+function getTimeRemaining(time) {
+  var t = Date.parse(time) - Date.now();
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  return {
+    'total': t,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
 }
 
 // calculates the alarm time as a Date object
@@ -545,20 +559,6 @@ function showGenres(bool) {
     $('#specifyNo').addClass('btn-primary');
     $('#specifyYes').removeClass('btn-primary');
   }
-}
-
-// countdown
-function getTimeRemaining(time) {
-  var t = Date.parse(time) - Date.now();
-  var seconds = Math.floor((t / 1000) % 60);
-  var minutes = Math.floor((t / 1000 / 60) % 60);
-  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-  return {
-    'total': t,
-    'hours': hours,
-    'minutes': minutes,
-    'seconds': seconds
-  };
 }
 
 $(document).ready(function() {
