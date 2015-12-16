@@ -64,41 +64,31 @@ function toggleActive(obj) {
 }
 
 function calculateEndTime(time) {
+  var date = new Date();
   var h = time.hour - endtime.getHours();
   var m = time.minute - endtime.getMinutes();
   var s = time.seconds - endtime.getSeconds();
-  if (h < 0) {
-    h = h + 24;
-  }
-  endtime.setSeconds(endtime.getSeconds() + s);
-  endtime.setMinutes(endtime.getMinutes() + m);
-  endtime.setHours(endtime.getHours() + h);
-  console.log(endtime);
+
+  date.setHours(time.hour);
+  date.setMinutes(time.minute);
+  date.setSeconds(time.seconds);
+
+  if (endtime >= date) {
+    date.setHours(date.getHours() + 24);
+  }  
+  // console.log(date)
+  endtime = date;
   initializeClock('countdown');
 }
 
-function sleepNow() {
+function sleepNow(from) {
   initializeMainView()
   getWakeySongs(queuePlaylist,selectGenres);
-  goToView('alarmMusic','main');
+  goToView('alarmMusic',from);
   console.log(selectGenres);
   playSleepyMusic();
   startTime()
-  checkTime()
-  var p = $('#selectPeriod').val(),
-      h = parseInt($('#selectHours').val(),10),
-      m = parseInt($('#selectMin').val());
-
-  if (p === 'PM' && h < 12) { // 1PM - 11PM
-    h = h +12;
-  }
-  else if (p === 'AM' && h === 12) {
-    h = 0;
-  }
-  snoozeTime = parseInt($('#snoozeDrop').val(),10);
-  alarmTime.hour = h;
-  alarmTime.minute = m;
-  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
+  checkTime()  
   alarmTime.dateObj = calculateEndTime(alarmTime);
   $('#alarmTime').text(alarmTime.string);
 }
@@ -167,7 +157,7 @@ function queueSleepylist(list) {
   sleepyList = list;
 }
 
-function renderAlarm(name,genres,alarm,snooze) {
+function renderAlarm(id,name,genres,alarm,snooze) {
   var genrehtml = '';
   if (genres.length === 0) {
     genrehtml = 'all';
@@ -175,7 +165,7 @@ function renderAlarm(name,genres,alarm,snooze) {
   for (var i=0; i< genres.length; i++) {
     genrehtml = genrehtml + genres[i] + ',';
   }
-  var html = '<a class="list-group-item alarmItem">'+
+  var html = '<a data-dismiss="modal" onclick="loadSavedAlarm('+id+')" class="list-group-item alarmItem">'+
     '<h3>'+name+'</h3>'+
     '<b>Alarm Time: </b>'+alarm+'<br>'+
     '<b>Snooze Time: </b>'+snooze+'<br>'+
@@ -190,7 +180,7 @@ function displayAlarms() {
   var html = '';
   for (var i=0; i < alarms.length; i++) {
     var a=alarms[i];
-    html = html + renderAlarm(a.name, a.genres, a.time, a.snooze_time);
+    html = html + renderAlarm(a.id,a.name,a.genres, a.time,a.snooze_time);
   }
   $("#alarmsModalBody").append(html);
 }
@@ -266,10 +256,10 @@ function playSleepyMusic() {
     }
     else { // out of sleepy music
       sleepyAudio.pause();
-      // setTimeout(function() {
-      //   playWakeyMusic()
-      // },5000);// time should be fifteen min before alarm
-      // alarm - current time - 15min
+      $('#albumCover').attr('src','');
+      $('#albumName').text('');
+      $('#artistName').text('');
+      $('#songName').text('Nothing playing!');
     }
   });
 }
@@ -353,7 +343,21 @@ function initializeGenres() {
 
 function next() {
   toggleDisplay('page1');
-  toggleDisplay('page2');  
+  toggleDisplay('page2');
+  var p = $('#selectPeriod').val(),
+      h = parseInt($('#selectHours').val(),10),
+      m = parseInt($('#selectMin').val());
+
+  if (p === 'PM' && h < 12) { // 1PM - 11PM
+    h = h+12;
+  }
+  else if (p === 'AM' && h === 12) {
+    h = 0;
+  }
+  snoozeTime = parseInt($('#snoozeDrop').val(),10);
+  alarmTime.hour = h;
+  alarmTime.minute = m;
+  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;  
 }
 
 function back() {
@@ -475,7 +479,7 @@ $(document).ready(function() {
     $('#editHours').append($('<option></option>').val(j).html(j));
 
   }
-  for (i=1;i<=60;i++) {
+  for (i=0;i<60;i++) {
     var j = i;
     if (i < 10) {
       j = '0'+i;
@@ -536,4 +540,17 @@ function saveAlarmModal() {
     $("#alarmSaveModal").modal('hide');
   }
   displayAlarms();
+}
+
+function loadSavedAlarm(id) {
+  alarm = loadAlarm(id);
+  console.log(alarm);
+  selectGenres = alarm.genres;
+  sleepyQueue = alarm.sleepy_music;
+  wakeyQueue = alarm.songs;
+  alarmTime.string = alarm.time;
+  alarmTime.hour = parseInt(alarm.time.substring(0,2),10);
+  alarmTime.minute = parseInt(alarm.time.substring(3,5),10);
+  alarmTime.p = alarm.time.substring(5,7);
+  sleepNow('menu');
 }

@@ -59,7 +59,7 @@
 
 </head>
 <body>
-  <div style="position: fixed; top:100px; right:30px; background-color:#fff; color: #000; padding:10px;">
+  <div style="position: fixed; top:30px; right:30px; background-color:#fff; color: #000; padding:10px;">
     <h4>Alarm test</h4>
     <button class="btn btn-lg btn-default" onclick="alarmGo()">Test Alarm</button>    
   </div>
@@ -83,12 +83,12 @@
           The time is now <span id="clock"></span><br/><br/>
           <div class="musicplayer  text-left nowPlaying">
             <div class="albumcover">
-              <img src="placeholder.jpg" id="albumCover">
+              <img id="albumCover">
             </div>
             <div class="info">
-              <h3 class="title" id="songName">Song name</h3>
-              <i id="albumName">Album</i><br/>
-              <b id="artistName">Artist</b><br/>
+              <h3 class="title" id="songName">Nothing playing!</h3>
+              <i id="albumName"></i><br/>
+              <b id="artistName"></b><br/>
             </div>
           </div><br/>
           <div id="sleepView">
@@ -311,7 +311,7 @@
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             Back
           </button>
-          <button class="navButton" onclick="sleepNow()" id="sleepNow">
+          <button class="navButton" onclick="sleepNow('main')" id="sleepNow">
             Sleep
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
           </button>
