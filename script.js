@@ -423,6 +423,8 @@ $(document).ready(function() {
     toggleActive(e.target);
   });
 
+  $("#alarmsModalBody").append($('<a>lol</a>'));
+
   for (i=1;i<=12;i++) {
     var j = i;
     if (i < 10) {
