@@ -134,11 +134,12 @@
             <h4 class="modal-title" id="myModalLabel">Alarms</h4>
           </div>
           <div id="alarmSaveModalBody" class="modal-body">
-            <input type="text" />
+            <p>Alarm Name</p>
+            <input id="alarm-name" type="text" style="color:black"/>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="saveAlarm()" data-dismiss="modal">Save changes</button>
+            <button type="button" class="btn btn-primary" onclick="saveAlarmModal()" data-dismiss="modal">Save Alarm</button>
           </div>
         </div>
       </div>

@@ -8,6 +8,8 @@ var selectGenres = [],
     timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0}
     snoozeTime = 1;
     endtime = new Date();
+    sleepyList = [];
+    wakeyList = [];
 
 var counter = 1;
 
@@ -141,11 +143,13 @@ function newAlarm() {
 function queuePlaylist(list) {
   renderPlaylist(list);
   wakeyQueue = list;
+  wakeyList = list;
   console.log(list.length);
 }
 
 function queueSleepylist(list) {
   sleepyQueue = list;
+  sleepyList = list;
 }
 
 function renderPlaylist(list) {
@@ -486,4 +490,9 @@ function setGenreButtons() {
       $(this).addClass('active');
     }
   });
+}
+
+function saveAlarmModal() {
+  var name = $("#input:textbox").val();
+  saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
 }
