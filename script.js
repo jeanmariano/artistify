@@ -72,9 +72,7 @@ function initializeClock(id) {
 // calculates the alarm time as a Date object
 function calculateEndTime(time) {
   var date = new Date();
-  var h = time.hour - endtime.getHours();
-  var m = time.minute - endtime.getMinutes();
-  var s = time.seconds - endtime.getSeconds();
+  console.log(date)
 
   date.setHours(time.hour);
   date.setMinutes(time.minute);
@@ -322,6 +320,7 @@ function stopAllTracks() {
 
 // renders all the songs in the alarm playlist into the DOM
 function renderPlaylist() {
+  $('#alarmtester').css('display','block');
   list = wakeyQueue;
   var html = '';
   for (var i=0; i < list.length; i++) {
@@ -422,11 +421,22 @@ function setEditModal() {
 
 function saveModalChanges() {
   setSelectFields();
-  alarmTime.hour = parseInt($('#editHours option:selected').text());
-  alarmTime.minute = parseInt($('#editMin option:selected').text());
-  var p = $('#selectPeriod').val();
-  snoozeTime = $("#snoozeDrop").val();
+  // alarmTime.hour = parseInt($('#editHours option:selected').text());
+  // alarmTime.minute = parseInt($('#editMin option:selected').text());
+  var p = $('#editPeriod').val(),
+      h = parseInt($('#editHours').val(),10),
+      m = parseInt($('#editMin').val(),10);
+  if (p === 'PM' && h < 12) { // 1PM - 11PM
+    h = h+12;
+  }
+  else if (p === 'AM' && h === 12) {
+    h = 0;
+  }
+  snoozeTime = parseInt($('#editSnoozeDrop').val(),10);
+  alarmTime.hour = h;
+  alarmTime.minute = m;
   alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
+  $('#alarmTime').text(alarmTime.string);
   alarmTime.dateObj = calculateEndTime(alarmTime);
   getWakeySongs(queuePlaylist,selectGenres);
 }
@@ -509,8 +519,7 @@ function next() {
   toggleDisplay('page2');
   var p = $('#selectPeriod').val(),
       h = parseInt($('#selectHours').val(),10),
-      m = parseInt($('#selectMin').val());
-
+      m = parseInt($('#selectMin').val(),10);
   if (p === 'PM' && h < 12) { // 1PM - 11PM
     h = h+12;
   }
@@ -622,12 +631,14 @@ $(document).ready(function() {
   }
   for (i=1;i<=20;i++) {
     if (i !== 5) {
-      $('#snoozeDrop').append($('<option></option>').val(i).html(i+' min'));
-      $('#editSnoozeDrop').append($('<option></option>').val(i).html(i+' min'));
+      $('#snoozeDrop').append($('<option></option>').val(i+' min').html(i+' min'));
+      $('#editSnoozeDrop').append($('<option></option>').val(i+' min').html(i+' min'));
     }
     else {
       $('#snoozeDrop').append($('<option selected="selected"></option>').val(i).html(i+' min'));
       $('#editSnoozeDrop').append($('<option selected="selected"></option>').val(i).html(i+' min'));
     }
   }
+
+  $('#alarmtester').css('display','none');
 });
