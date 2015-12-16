@@ -150,8 +150,9 @@ function sleepNow(from) {
 
 // starts alarm mode
 function alarmGo() {
+  goToView('alarm','sleep');
+
   if (wakeyAudio.paused) {
-    goToView('alarm','sleep');
     $('.hours').text('00');
     $('.minutes').text('00');
     $('.seconds').text('00');
