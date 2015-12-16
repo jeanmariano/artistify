@@ -151,14 +151,19 @@ function sleepNow(from) {
 // starts alarm mode
 function alarmGo() {
   if (wakeyAudio.paused) {
-    playWakeyMusic();
-    goToView('alarm','sleep');    
+    goToView('alarm','sleep');
+    $('.hours').text('00');
+    $('.minutes').text('00');
+    $('.seconds').text('00');
+    endtime = new Date();
+    playWakeyMusic(); 
   }
-  else {
-    // for testing
-    wakeyAudio.pause();
-    playWakeyMusic();
-  }
+}
+
+// for testing
+function skipTrack() {
+  wakeyAudio.pause();
+  playWakeyMusic();
 }
 
 function snoozeAlarm() {
@@ -287,6 +292,10 @@ function playWakeyMusic() {
     }
     else {
       wakeyAudio.pause();
+      $('#albumCover').attr('src','');
+      $('#albumName').text('');
+      $('#artistName').text('');
+      $('#songName').text('Nothing playing.');
     }
   });
 }
