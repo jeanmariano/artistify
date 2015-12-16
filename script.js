@@ -48,10 +48,10 @@ function initializeClock(id) {
   var hoursSpan = clock.querySelector('.hours');
   var minutesSpan = clock.querySelector('.minutes');
   var secondsSpan = clock.querySelector('.seconds');
+  var ended = false
   
   function updateClock(ended) {
     var t = getTimeRemaining(endtime);
-    console.log("t:"+t);
 
     if (t.total > 0) {
       hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
@@ -64,9 +64,12 @@ function initializeClock(id) {
     else {
       clearInterval(timeinterval);
       alarmGo();
+      ended = true;
     }    
   }
-  updateClock();
+  if (!ended) {
+    updateClock(ended);
+  }
   var timeinterval = setInterval(updateClock, 1000);
 }
 
