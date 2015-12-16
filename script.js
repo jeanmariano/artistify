@@ -7,7 +7,7 @@ var selectGenres = [],
     alarmTime = {'hour': 0, 'minute': 0, 'seconds': 0, 'string': '', 'dateObj': undefined},
     timeLeft = {'hour': 0, 'minute': 0, 'seconds': 0}
     snoozeTime = 1;
-    endtime = new Date();
+    // endtime = new Date();
     sleepyList = [];
     wakeyList = [];
 
@@ -64,6 +64,7 @@ function toggleActive(obj) {
 }
 
 function calculateEndTime(time) {
+  var endtime = new Date();
   var h = time.hour - endtime.getHours();
   var m = time.minute - endtime.getMinutes();
   var s = time.seconds - endtime.getSeconds();
@@ -76,7 +77,7 @@ function calculateEndTime(time) {
   console.log(endtime)
   console.log(Date.parse(endtime) - Date.now())
   $('#alarmTime').text(alarmTime.string);
-  initializeClock('countdown')
+  initializeClock('countdown',endtime)
 }
 
 function sleepNow() {
@@ -87,6 +88,20 @@ function sleepNow() {
   playSleepyMusic();
   startTime()
   checkTime()
+  var p = $('#selectPeriod').val(),
+      h = parseInt($('#selectHours').val(),10),
+      m = parseInt($('#selectMin').val());
+
+  if (p === 'PM' && h < 12) { // 1PM - 11PM
+    h = h +12;
+  }
+  else if (p === 'AM' && h === 12) {
+    h = 0;
+  }
+  snoozeTime = parseInt($('#snoozeDrop').val(),10);
+  alarmTime.hour = h;
+  alarmTime.minute = m;
+  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
   alarmTime.dateObj = calculateEndTime(alarmTime);
   $('#alarmTime').text(alarmTime.string);
 }
@@ -103,17 +118,19 @@ function save() {
 }
 
 function alarmGo() {
-  // playWakeyMusic();
+  playWakeyMusic();
   goToView('alarm','sleep');
 }
 
 function snoozeAlarm() {
   goToView('snooze','alarm');
   wakeyAudio.pause();
+  var snoozeTo = new Date(Date.now()+snoozeTime*60*1000);
+  initializeClock('snoozeClock',snoozeTo);
   setTimeout(function() {
     wakeyAudio.play();
     goToView('alarm','snooze');
-  },2500);
+  },snoozeTo*60*1000);
 }
 
 function cancelAlarm(to,from) {
@@ -150,6 +167,34 @@ function queuePlaylist(list) {
 function queueSleepylist(list) {
   sleepyQueue = list;
   sleepyList = list;
+}
+
+function renderAlarm(name,genres,alarm,snooze) {
+  var genrehtml = '';
+  if (genres.length === 0) {
+    genrehtml = 'all';
+  }
+  for (var i=0; i< genres.length; i++) {
+    genrehtml = genrehtml + genres[i] + ',';
+  }
+  var html = '<a class="list-group-item alarmItem">'+
+    '<h3>'+name+'</h3>'+
+    '<b>Alarm Time: </b>'+alarm+'<br>'+
+    '<b>Snooze Time: </b>'+snooze+'<br>'+
+    '<b>Genres: </b>'+genrehtml+'<br>'+
+    '</a>';
+  return html 
+}
+
+function displayAlarms() {
+  alarms = getAlarms();
+  console.log(alarms);
+  var html = '';
+  for (var i=0; i < alarms.length; i++) {
+    var a=alarms[i];
+    html = html + renderAlarm(a.name, a.genres, a.time, a.snooze_time);
+  }
+  $("#alarmsModalBody").append(html);
 }
 
 function renderPlaylist(list) {
@@ -310,24 +355,7 @@ function initializeGenres() {
 
 function next() {
   toggleDisplay('page1');
-  toggleDisplay('page2');
-
-  var p = $('#selectPeriod').val(),
-      h = parseInt($('#selectHours').val(),10),
-      m = parseInt($('#selectMin').val());
-
-  if (p === 'PM' && h < 12) { // 1PM - 11PM
-    h = h +12;
-  }
-  else if (p === 'AM' && h === 12) {
-    h = 0;
-  }
-  alarmTime.hour = h;
-  alarmTime.minute = m;
-  // var today = new Date();
-  // alarmTime.seconds = today.getSeconds();
-  alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
-  console.log(alarmTime);
+  toggleDisplay('page2');  
 }
 
 function back() {
@@ -370,7 +398,7 @@ function getTimeRemaining(endtime) {
   };
 }
 
-function initializeClock(id) {
+function initializeClock(id,endtime) {
   var clock = document.getElementById(id);
   var hoursSpan = clock.querySelector('.hours');
   var minutesSpan = clock.querySelector('.minutes');
@@ -427,7 +455,7 @@ $(document).ready(function() {
     toggleActive(e.target);
   });
 
-  $("#alarmsModalBody").append($('<a>lol</a>'));
+  displayAlarms();
 
   for (i=1;i<=12;i++) {
     var j = i;
@@ -484,7 +512,6 @@ function setSelectFields() {
 }
 
 function setGenreButtons() {
-
   $('a', $('#genreListModal')).each(function () {
     if (selectGenres.indexOf($(this).text()) > -1) {
       $(this).addClass('active');
@@ -493,6 +520,7 @@ function setGenreButtons() {
 }
 
 function saveAlarmModal() {
+<<<<<<< Updated upstream
   var name = $("#alarm-name").val();
   if (name === "") {
     console.log("noname");
@@ -501,3 +529,9 @@ function saveAlarmModal() {
     $("#alarmSaveModal").modal('hide');
   }
 }
+=======
+  var name = $("#input:textbox").val();
+  saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
+  displayAlarms();
+}
+>>>>>>> Stashed changes

@@ -59,6 +59,10 @@
 
 </head>
 <body>
+  <div style="position: fixed; top:100px; right:30px; background-color:#fff; color: #000; padding:10px;">
+    <h4>Alarm test</h4>
+    <button class="btn btn-lg btn-default" onclick="alarmGo()">Test Alarm</button>    
+  </div>
   <div class="container-fluid">
     <div class="row" id="navbar">
       <div class="col-md-2 col-lg-3"></div>
@@ -93,7 +97,6 @@
             <button id="editButton" onclick="setEditModal()" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
               Edit Alarm
             </button>
-            <button class="btn btn-lg btn-default" onclick="alarmGo()">Test Alarm</button>
           </div>
           <div id="alarmView">
             <h1>It is time to wake up!</h1>
@@ -101,7 +104,7 @@
             <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>
           </div>
           <div id="snoozeView">
-            <p>Snoozing for <b>5 minutes</b>...</p>
+            <b>Snooze time:<b> <span id="snoozeClock"><span class="minutes"></span>:<span class="seconds"></span></span>
             <button class="btn btn-lg btn-primary" onclick="wakeUp()">I am awake</button>
           </div>
         </div>
@@ -115,16 +118,13 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Alarms</h4>
+            <h4 class="modal-title" id="myModalLabel">My Saved Alarms</h4>
           </div>
-          <div id="alarmsModalBody" class="modal-body">
-
+          <div id="alarmsModalBody" class="modal-body list-group">
           </div>
         </div>
       </div>
     </div>
-
-
 
     <div class="modal fade" id="alarmSaveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -228,10 +228,10 @@
       <div class="col-md-8 col-lg-6 text-center">
         <h2>Alarm using your music!</h2>
         <div style="display:inline; margin-left:auto; margin-right:auto; ">
-          <a onclick="createAlarm()" style="color:#fff; display:inline-block; width:180px; border:1px solid #fff; padding:20px; margin:10px; border-radius:4px;">
+          <a onclick="createAlarm()" class="homeButton">
             Create new alarm
           </a>
-          <a data-toggle="modal" data-target="#alarmsModal" style="color:#fff; display:inline-block; width:180px; padding:20px; margin:10px; border:1px solid #fff; border-radius:4px;">
+          <a data-toggle="modal" data-target="#alarmsModal" class="homeButton">
             My saved alarms
           </a>
         </div>
@@ -306,7 +306,6 @@
                 <div class="col-md-4 col-xs-4"><a class="list-group-item">Blues</a></div>
               </div>
             </div>
-            <br/><br/>
           </div>
           <button class="navButton" id="nextPage" onclick="back()">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>

@@ -55,12 +55,26 @@ img {
   /*border:1px solid #fff;*/
   padding: 30px;
   border-radius: 15px;
-  background: rgba(25,47,82,1);
+  background: rgba(25,47,82,1);  
+}
+.modal-header {
+  color: #000;
 }
 #mainView, #alarmMusicView, #menuView, #playlistView {
   background-color: rgba(0,0,0,0.2);
   padding-top: 30px;
   padding-bottom: 30px;
+}
+.homeButton {
+  color:#fff;
+  display:inline-block;
+  width:180px;
+  border:2px solid #fff;
+  padding:20px;
+  margin:10px;
+  border-radius:10px;
+  text-decoration: none;
+  font-weight: 500;
 }
 .media-object {
   width:100px;
@@ -85,15 +99,16 @@ img {
   text-transform: uppercase;
   font-size: 11pt;
   letter-spacing: 2pt;
+  font-weight: 500;
 }
 .navButton .glyphicon {
   font-size:10pt;
 }
-.navButton:hover {
+.navButton:hover, .homeButton:hover {
   background-color: #fff;
   color:rgba(25,47,82,1);  
+  text-decoration: none;
 }
-
 #playlist {
   color:#000;
 }
@@ -112,7 +127,6 @@ img {
 #contentcontainer{ 
   width:75%;
 }
-
 .inner-addon {
   color: #000000;
   position: relative;
@@ -123,22 +137,18 @@ img {
   padding: 10px;
   pointer-events: none;
 }
-
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
 }
-
 @-webkit-keyframes spin2 {
     from { -webkit-transform: rotate(0deg);}
     to { -webkit-transform: rotate(360deg);}
 }
-
 @keyframes spin {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
 }
-
 .playlistImg {
   width:100px;
   margin-right:8px;
@@ -241,5 +251,6 @@ ul {
   padding-right: 0px;
   width:170px;
 }
-
-
+.alarmItem {
+  font-size: 12pt;
+}
