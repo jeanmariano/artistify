@@ -494,5 +494,10 @@ function setGenreButtons() {
 
 function saveAlarmModal() {
   var name = $("#alarm-name").val();
-  saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
+  if (name === "") {
+    console.log("noname");
+  } else {
+    saveAlarm(name, alarmTime.string, selectGenres, wakeyList, sleepyList, $("#snoozeDrop").val())
+    $("#alarmSaveModal").modal('hide');
+  }
 }

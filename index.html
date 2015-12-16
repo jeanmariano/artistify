@@ -133,13 +133,13 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel">Alarms</h4>
           </div>
-          <div id="alarmSaveModalBody" class="modal-body">
-            <p>Alarm Name</p>
-            <input id="alarm-name" type="text" style="color:black"/>
+          <div id="alarmSaveModalBody" class="modal-body" style="color:black">
+            <h4 style="color:black">Alarm Name</h4>
+            <input id="alarm-name" type="text" style="color:black"/><span style="color:red">  *</span>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="saveAlarmModal()" data-dismiss="modal">Save Alarm</button>
+            <button type="button" class="btn btn-primary" onclick="saveAlarmModal()">Save Alarm</button>
           </div>
         </div>
       </div>
