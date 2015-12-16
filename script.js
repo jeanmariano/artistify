@@ -478,7 +478,7 @@ function setGenreButtons() {
 
   $('a', $('#genreListModal')).each(function () {
     if (selectGenres.indexOf($(this).text()) > -1) {
-      toggleActive($(this));
+      $(this).addClass('active');
     }
   });
 }
