@@ -22,7 +22,7 @@ function startTime() {
       p = '';
   m = checkTime(m);
   s = checkTime(s);
-  if (h <= 12) {
+  if (h < 12) {
     p = 'AM';
   }
   else {
@@ -421,6 +421,7 @@ function displayAlarms() {
 }
 
 // when opening edit modal , set values of form
+// set edit to alarm params
 function setEditModal() {
   setGenreButtons();
   $("#editHours").get(0).selectedIndex = $('#selectHours option:selected').index();
@@ -431,6 +432,7 @@ function setEditModal() {
 }
 
 // when pressing save in modal, change appropriate fields
+// save edits
 function saveModalChanges() {
   setSelectFields();
   // alarmTime.hour = parseInt($('#editHours option:selected').text());
@@ -454,6 +456,7 @@ function saveModalChanges() {
 }
 
 // save appropriate fields (used in save modal changes)
+// set select for edit
 function setSelectFields() {
   $("#selectHours").get(0).selectedIndex = $('#editHours option:selected').index();
   $("#selectPeriod").get(0).selectedIndex = $('#editPeriod option:selected').index();
@@ -497,7 +500,7 @@ function loadSavedAlarm(id) {
   sleepNow('menu');
 }
 
-// deletes alarm of certain id from sesssion store
+// delete a saved alarm
 function deleteSavedAlarm(id) {
   var c = confirm('Do you really want to delete this alarm?');
   if (c === true) {
@@ -571,6 +574,7 @@ function showGenres(bool) {
   }
 }
 
+// dom events and renders
 $(document).ready(function() {
   $('#alarmMusicView').css('display','none');
   $('#playlistView').css('display','none');
