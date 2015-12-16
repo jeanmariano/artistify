@@ -401,7 +401,12 @@ $(document).ready(function() {
   $('#mainView').css('display','none');
 
   $('#genreList').on('click','.list-group-item',function(e) {
-    selectGenres.push(e.target.text);
+    var index = selectGenres.indexOf(e.target.text);
+    if (index > -1) {
+      selectGenres.splice(index, 1);
+    } else {
+      selectGenres.push(e.target.text);
+    }
     toggleActive(e.target);
   });
 
@@ -443,6 +448,7 @@ function saveModalChanges() {
   alarmTime.hour = parseInt($('#editHours option:selected').text());
   alarmTime.minute = parseInt($('#editMin option:selected').text());
   var p = $('#selectPeriod').val();
+  snoozeTime = $("#snoozeDrop").val();
   alarmTime.string = $('#selectHours').val() + ":" + $('#selectMin').val() + p;
   alarmTime.dateObj = calculateEndTime(alarmTime);
 }

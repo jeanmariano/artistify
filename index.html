@@ -109,13 +109,13 @@
       <div class="col-md-2 col-lg-3"></div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal DONT ACCIDENTALLY EDIT THIS - CODE IS SIMILAR TO OTHER FORMS-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            <h4 class="modal-title" id="editAlarmModalTitle">Edit Alarm</h4>
           </div>
           <div class="modal-body">
             <div id="editModal">
@@ -141,6 +141,30 @@
                 Set snooze time:<br/>
                 <select class="form-control input-lg" style="display:inline-block; width:150px;" id="editSnoozeDrop">
                 </select>
+              </div>
+              <div class="panel">
+                Specify what music to wake up to?<br/>
+                <div id="genreListModal">
+                  <br/>
+                  <!-- <h3>With music from these genres:</h3>           -->
+                  <div class="row">
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Pop</a></div>
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Rock</a></div>
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Indie</a></div>
+                  </div><br/>
+                  <div class="row">
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Electronic</a></div>
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Country</a></div>
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Folk</a></div>
+                  </div><br/>
+                  <div class="row">
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Jazz</a></div>
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Metal</a></div>
+                    <div class="col-md-4 col-xs-4"><a class="list-group-item">Blues</a></div>
+                  </div>
+                </div>
+                <br/><br/>
+                <p>Save this alarm playlist? <input id="modal-checkbox" type="checkbox"></p>
               </div>
             </div>
           </div>
