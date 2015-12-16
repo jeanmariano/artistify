@@ -48,9 +48,10 @@ function initializeClock(id) {
   var hoursSpan = clock.querySelector('.hours');
   var minutesSpan = clock.querySelector('.minutes');
   var secondsSpan = clock.querySelector('.seconds');
-
-  function updateClock() {
+  
+  function updateClock(ended) {
     var t = getTimeRemaining(endtime);
+    console.log("t:"+t);
 
     if (t.total > 0) {
       hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
@@ -58,14 +59,14 @@ function initializeClock(id) {
       secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
       if (t.minutes === 15 && t.seconds === 0) {
         playWakeyMusic();
-      }
-      updateClock();      
+      }            
     }
     else {
       clearInterval(timeinterval);
       alarmGo();
     }    
   }
+  updateClock();
   var timeinterval = setInterval(updateClock, 1000);
 }
 
